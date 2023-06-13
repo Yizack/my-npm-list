@@ -20,7 +20,7 @@ const { loggedIn, user, clear } = useUserSession();
               <NuxtLink class="nav-link active" aria-current="page" to="/">Home</NuxtLink>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Site Stats</a>
+              <NuxtLink class="nav-link" to="/stats">Site Stats</NuxtLink>
             </li>
           </ul>
         </div>

@@ -1,6 +1,8 @@
 <template>
   <div id="layout">
     <NavBar />
-    <slot />
+    <div class="container-fluid py-3">
+      <slot />
+    </div>
   </div>
 </template>

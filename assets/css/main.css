@@ -8,3 +8,28 @@ a:hover {
   color: var(--bs-primary-text-emphasis);
   text-decoration: underline;
 }
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: var(--bs-secondary-bg);
+}
+
+*::-webkit-scrollbar-thumb {
+  height: 56px;
+  border-radius: 8px;
+  border: 0 solid transparent;
+  background-clip: content-box;
+  background-color: var(--bs-link-color);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--bs-link-hover-color);
+}
+
+::selection {
+  background: var(--bs-link-color);
+  color: #fff!important;
+}
