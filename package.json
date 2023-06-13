@@ -1,0 +1,37 @@
+{
+  "name": "my-npm-list",
+  "version": "1.0.0",
+  "description": "Web app listing your npm packages used in all your github projects. Log in with github and view your list and the lists of other registered users.",
+  "author": "Yizack Rangel",
+  "type": "module",
+  "homepage": "https://github.com/Yizack/my-npm-list",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yizack/my-npm-list"
+  },
+  "bugs": {
+    "url": "https://github.com/Yizack/my-npm-list/issues"
+  },
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev --port=5173",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "db:migration": "drizzle-kit generate:sqlite"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config": "^12.0.0",
+    "better-sqlite3": "^8.4.0",
+    "eslint": "^8.42.0",
+    "nuxt": "^3.5.3",
+    "nuxt-icon": "^0.4.1"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.0",
+    "chart.js": "^4.3.0",
+    "drizzle-kit": "^0.18.1",
+    "drizzle-orm": "^0.26.5",
+    "nuxt-twemoji": "^3.3.0"
+  }
+}
