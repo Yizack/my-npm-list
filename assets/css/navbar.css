@@ -11,7 +11,8 @@ nav.navbar * {
   padding-right: 1rem;
 }
 
-.navbar-nav .nav-item .nav-link.active {
+.navbar-nav .nav-item .nav-link.router-link-active.router-link-exact-active {
+  color: var(--bs-primary-text-emphasis);
   background-color: var(--bs-tertiary-bg);
   border-radius: var(--bs-border-radius-pill);
 }

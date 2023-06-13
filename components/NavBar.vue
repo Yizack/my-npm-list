@@ -17,7 +17,7 @@ const { loggedIn, user, clear } = useUserSession();
         <div class="offcanvas-body">
           <ul class="navbar-nav ms-auto mb-lg-0 gap-md-3">
             <li class="nav-item">
-              <NuxtLink class="nav-link active" aria-current="page" to="/">Home</NuxtLink>
+              <NuxtLink class="nav-link" aria-current="page" to="/">Home</NuxtLink>
             </li>
             <li class="nav-item">
               <NuxtLink class="nav-link" to="/stats">Site Stats</NuxtLink>
