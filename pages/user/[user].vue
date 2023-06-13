@@ -59,7 +59,7 @@ const updateList = async () => {
       <div class="col-lg-9">
         <div class="bg-body-tertiary rounded-3 p-3 mb-2">
           <h2 class="mb-0">Packages List</h2>
-          <p class="text-muted small">Last updated on {{ formatDate(user.listUpdated, true) }}</p>
+          <p class="text-muted small">Last updated: {{ user.listUpdated ? formatDate(user.listUpdated, true) : 'Never' }}</p>
           <p class="mb-0">A list of packages that <strong class="text-primary-emphasis">{{ user.ghUser }}</strong> has used in their projects on GitHub.</p>
         </div>
         <div v-if="user.packages && user.packages.length" class="row g-2">
