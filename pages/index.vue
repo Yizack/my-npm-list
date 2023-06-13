@@ -1,3 +1,7 @@
 <template>
-  <a href="/api/github/auth">Login with GitHub</a>
+  <main>
+    <div class="container.fluid">
+      Home
+    </div>
+  </main>
 </template>
