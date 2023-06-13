@@ -1,28 +1,38 @@
-import { eq, and } from "drizzle-orm";
+import { eq, and, asc, sql } from "drizzle-orm";
 
 export default eventHandler(async (event) => {
-  const { user } = await requireUserSession(event);
+  const { user, ghTokens } = await requireUserSession(event);
   if (!user) {
-    return sendRedirect(event, "/");
-  }
-  const config = useRuntimeConfig(event);
-  const { code } = getQuery(event);
-  if (!code) {
-    const redirectUrl = getRequestURL(event).href;
-    return sendRedirect(event, `https://github.com/login/oauth/authorize?client_id=${config.github.clientId}&redirect_uri=${redirectUrl}`);
+    throw createError({
+      status: 401,
+      message: "Unauthorized"
+    });
   }
 
+  const config = useRuntimeConfig(event);
   const response = await $fetch("https://github.com/login/oauth/access_token", {
     method: "POST",
     body: {
       client_id: config.github.clientId,
       client_secret: config.github.clientSecret,
-      code
+      grant_type: "refresh_token",
+      refresh_token: ghTokens.refresh_token
     }
   });
+
   if (response.error) {
-    return sendRedirect(event, "/");
+    throw createError({
+      status: 401,
+      message: "Unauthorized"
+    });
   }
+
+  await setUserSession(event, {
+    user,
+    ghTokens: {
+      refresh_token: response.refresh_token
+    }
+  });
 
   const ghRepos = await $fetch("https://api.github.com/user/repos", {
     headers: {
@@ -33,7 +43,7 @@ export default eventHandler(async (event) => {
       affiliation: "owner",
       visibility: "public",
       sort: "updated",
-      per_page: 100,
+      per_page: 1,
       page: 1
     }
   }).catch(() => []);
@@ -88,6 +98,9 @@ export default eventHandler(async (event) => {
     }
   }
 
+  const ids = list.map(item => eq(tables.lists.id, item.id));
+  await DB.delete(tables.lists).where(sql`not exists ${DB.select().from(tables.lists).where(and(eq(tables.lists.ghId, user.ghId), ...ids))}`).run();
+
   for (const { id, versions, count } of list) {
     const exists = await DB.select().from(tables.lists).where(and(eq(tables.lists.ghId, user.ghId), eq(tables.lists.packageId, id))).limit(1).get();
 
@@ -111,5 +124,14 @@ export default eventHandler(async (event) => {
     listUpdated: today
   }).where(eq(tables.users.ghId, user.ghId)).run();
 
-  return sendRedirect(event, `/user/${user.ghUser}`);
+  const userPackages = await DB.select({
+    id: tables.packages.id,
+    name: tables.packages.name,
+    added: tables.packages.added,
+    lastFetch: tables.packages.lastFetch,
+    versions: tables.lists.versions,
+    count: tables.lists.count
+  }).from(tables.lists).innerJoin(tables.packages, eq(tables.lists.packageId, tables.packages.id)).where(eq(tables.lists.ghId, user.ghId)).orderBy(asc(tables.packages.name)).all();
+
+  return { packages: userPackages };
 });

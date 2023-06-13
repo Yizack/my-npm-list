@@ -1,7 +1,7 @@
 <script setup>
 const { loggedIn } = useUserSession();
 const { params } = useRoute();
-const { data: user } = await useFetch(`/api/users/${params.user.toLowerCase()}`);
+const { data: user } = await useFetch(`/api/users/${params.user}`);
 </script>
 
 <template>
@@ -29,7 +29,7 @@ const { data: user } = await useFetch(`/api/users/${params.user.toLowerCase()}`)
               Joined on <span>{{ formatDate(user.joined) }}</span>
             </div>
             <div v-if="loggedIn" class="d-grid gap-2">
-              <a class="btn btn-primary rounded-pill" :href="`/api/github/repos`">Update List</a>
+              <button class="btn btn-primary rounded-pill" @click="updateList()">Update List</button>
               <button class="btn bg-body-secondary border rounded-pill">Edit Profile</button>
             </div>
           </div>
@@ -71,8 +71,11 @@ const { data: user } = await useFetch(`/api/users/${params.user.toLowerCase()}`)
 
 <script>
 export default {
-  mounted () {
-    this.$nuxt.$bootstrap.enablePopovers();
+  methods: {
+    async updateList () {
+      const data = await $fetch("/api/github/repos");
+      console.log(data);
+    }
   }
 };
 </script>

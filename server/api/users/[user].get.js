@@ -1,4 +1,4 @@
-import { eq, asc } from "drizzle-orm";
+import { eq, asc, sql } from "drizzle-orm";
 
 export default defineEventHandler(async (event) => {
   const { user } = getRouterParams(event);
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     userSelect = DB.select(columns);
   }
 
-  const userData = await userSelect.from(tables.users).where(eq(tables.users.ghUser, user)).get();
+  const userData = await userSelect.from(tables.users).where(sql`lower(${tables.users.ghUser}) like lower(${user})`).get();
   const userPackages = await DB.select({
     id: tables.packages.id,
     name: tables.packages.name,

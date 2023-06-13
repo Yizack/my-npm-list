@@ -39,6 +39,13 @@ export default eventHandler(async (event) => {
       name: ghUser.name
     }
   }).returning().get();
-  await setUserSession(event, { user });
+
+  await setUserSession(event, {
+    user,
+    ghTokens: {
+      refresh_token: response.refresh_token
+    }
+  });
+
   return sendRedirect(event, "/");
 });
