@@ -3,14 +3,18 @@ const { loggedIn } = useUserSession();
 const { params } = useRoute();
 const { data: user } = await useFetch(`/api/users/${params.user}`);
 
+const isUpdating = ref(false);
+
 const updateList = async () => {
   const time = new Date().getTime();
   if (time - user.value.listUpdated < 1000 * 60 * 10) {
     return alert("You can only update your list once every 10 minutes. Please try again later.");
   }
+  isUpdating.value = true;
   const { data: repos } = await useFetch("/api/github/repos");
   user.value.packages = repos.value.packages;
   user.value.listUpdated = time;
+  isUpdating.value = false;
 };
 </script>
 
@@ -37,8 +41,17 @@ const updateList = async () => {
             <Icon name="solar:calendar-bold" size="1.3em" />
             Joined on <span>{{ formatDate(user.joined) }}</span>
           </div>
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <Icon name="solar:box-bold" size="1.3em" />
+            {{ user.packages.length }} packages listed
+          </div>
           <div v-if="loggedIn" class="d-grid gap-2">
-            <button class="btn btn-primary rounded-pill" @click="updateList()">Update List</button>
+            <button v-if="isUpdating" class="btn btn-primary rounded-pill" disabled>
+              <div class="spinner-border spinner-border-sm text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </button>
+            <button v-else class="btn btn-primary rounded-pill" @click="updateList()">Update List</button>
             <button class="btn bg-body-secondary border rounded-pill">Edit Profile</button>
           </div>
         </div>

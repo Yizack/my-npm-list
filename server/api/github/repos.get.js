@@ -1,4 +1,4 @@
-import { eq, and, asc, sql } from "drizzle-orm";
+import { eq, asc } from "drizzle-orm";
 
 export default eventHandler(async (event) => {
   const { user, ghTokens } = await requireUserSession(event);
@@ -43,7 +43,7 @@ export default eventHandler(async (event) => {
       affiliation: "owner",
       visibility: "public",
       sort: "updated",
-      per_page: 1,
+      per_page: 100,
       page: 1
     }
   }).catch(() => []);
@@ -98,27 +98,22 @@ export default eventHandler(async (event) => {
     }
   }
 
-  const ids = list.map(item => eq(tables.lists.id, item.id));
-  await DB.delete(tables.lists).where(sql`not exists ${DB.select().from(tables.lists).where(and(eq(tables.lists.ghId, user.ghId), ...ids))}`).run();
-
-  for (const { id, versions, count } of list) {
-    const exists = await DB.select().from(tables.lists).where(and(eq(tables.lists.ghId, user.ghId), eq(tables.lists.packageId, id))).limit(1).get();
-
-    if (exists) {
-      await DB.update(tables.lists).set({
-        versions: versions.join(",").replace(/\^/g, ""),
-        count
-      }).where(and(eq(tables.lists.ghId, user.ghId), eq(tables.lists.packageId, id))).run();
-      continue;
-    }
-
-    await DB.insert(tables.lists).values({
-      ghId: user.ghId,
-      packageId: id,
-      versions: versions.join(",").replace(/\^/g, ""),
-      count
-    }).returning().get();
+  if (!list.length) {
+    return { packages: [] };
   }
+
+  list.map(pkg => eq(tables.lists.packageId, pkg.id));
+
+  await DB.delete(tables.lists).where(eq(tables.lists.ghId, user.ghId)).returning().all();
+
+  await DB.insert(tables.lists).values(
+    list.map(pkg => ({
+      ghId: user.ghId,
+      packageId: pkg.id,
+      versions: pkg.versions.join(",").replace(/\^/g, ""),
+      count: pkg.count
+    }))
+  ).returning().get();
 
   await DB.update(tables.users).set({
     listUpdated: today
