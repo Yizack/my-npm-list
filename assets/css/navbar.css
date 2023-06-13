@@ -9,12 +9,12 @@ nav.navbar * {
 .navbar-nav .nav-item .nav-link {
   padding-left: 1rem;
   padding-right: 1rem;
+  border-radius: var(--bs-border-radius-pill);
 }
 
 .navbar-nav .nav-item .nav-link.router-link-active.router-link-exact-active {
   color: var(--bs-primary-text-emphasis);
   background-color: var(--bs-tertiary-bg);
-  border-radius: var(--bs-border-radius-pill);
 }
 
 .navbar .dropdown-item, .navbar .nav-link {
