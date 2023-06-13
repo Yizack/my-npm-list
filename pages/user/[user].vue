@@ -1,7 +1,7 @@
 <script setup>
 const { loggedIn } = useUserSession();
 const { params } = useRoute();
-const { data: user } = await useFetch(`/api/users/${params.user}`);
+const { data: user } = await useFetch(`/api/users/${params.user.toLowerCase()}`);
 </script>
 
 <template>
