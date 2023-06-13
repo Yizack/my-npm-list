@@ -3,6 +3,10 @@ const { loggedIn } = useUserSession();
 const { params } = useRoute();
 const { data: user } = await useFetch(`/api/users/${params.user}`);
 
+if (!user.value.ghUser) {
+  navigateTo("/404");
+}
+
 const isUpdating = ref(false);
 
 const updateList = async () => {
