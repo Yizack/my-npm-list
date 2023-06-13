@@ -26,17 +26,18 @@ export default eventHandler(async (event) => {
     }
   }).catch(() => ({}));
 
+  const ghUserName = ghUser.name ? ghUser.name : ghUser.login;
   const user = await useDb().insert(tables.users).values({
     ghId: ghUser.id,
     ghUser: ghUser.login,
-    name: ghUser.name,
+    name: ghUserName,
     bio: ghUser.bio,
     joined: new Date().getTime()
   }).onConflictDoUpdate({
     target: tables.users.ghId,
     set: {
       ghUser: ghUser.login,
-      name: ghUser.name
+      name: ghUserName
     }
   }).returning().get();
 
