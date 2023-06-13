@@ -18,6 +18,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const userData = await userSelect.from(tables.users).where(sql`lower(${tables.users.ghUser}) like lower(${user})`).get();
+
   const userPackages = await DB.select({
     id: tables.packages.id,
     name: tables.packages.name,
