@@ -26,7 +26,7 @@ const { loggedIn, user, clear } = useUserSession();
         <div v-if="loggedIn" class="nav-item dropdown">
           <button class="button btn border rounded-pill dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <img :src="`https://avatars.githubusercontent.com/u/${user.ghId}?v=4`" alt="avatar" class="rounded-circle" width="24" height="24">
-            <span class="d-none d-md-inline">{{ user.ghUser }}</span>
+            <span class="d-none d-md-inline ms-2">{{ user.ghUser }}</span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><NuxtLink class="dropdown-item" :to="`/user/${user.ghUser}`">Profile</NuxtLink></li>
