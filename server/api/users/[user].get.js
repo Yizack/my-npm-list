@@ -1,4 +1,4 @@
-import { eq, asc, sql } from "drizzle-orm";
+import { eq, desc, sql } from "drizzle-orm";
 
 export default defineEventHandler(async (event) => {
   const { user } = getRouterParams(event);
@@ -26,6 +26,6 @@ export default defineEventHandler(async (event) => {
     lastFetch: tables.packages.lastFetch,
     versions: tables.lists.versions,
     count: tables.lists.count
-  }).from(tables.lists).innerJoin(tables.packages, eq(tables.lists.packageId, tables.packages.id)).where(eq(tables.lists.ghId, userData.ghId)).orderBy(asc(tables.packages.name)).all();
+  }).from(tables.lists).innerJoin(tables.packages, eq(tables.lists.packageId, tables.packages.id)).where(eq(tables.lists.ghId, userData.ghId)).orderBy(desc(tables.lists.count)).all();
   return { ...userData, packages: userPackages };
 });

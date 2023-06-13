@@ -1,4 +1,4 @@
-import { eq, asc } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 
 export default eventHandler(async (event) => {
   const { user, ghTokens } = await requireUserSession(event);
@@ -126,7 +126,7 @@ export default eventHandler(async (event) => {
     lastFetch: tables.packages.lastFetch,
     versions: tables.lists.versions,
     count: tables.lists.count
-  }).from(tables.lists).innerJoin(tables.packages, eq(tables.lists.packageId, tables.packages.id)).where(eq(tables.lists.ghId, user.ghId)).orderBy(asc(tables.packages.name)).all();
+  }).from(tables.lists).innerJoin(tables.packages, eq(tables.lists.packageId, tables.packages.id)).where(eq(tables.lists.ghId, user.ghId)).orderBy(desc(tables.lists.count)).all();
 
   return { packages: userPackages };
 });
