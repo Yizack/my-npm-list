@@ -18,7 +18,7 @@ const { data: user } = await useFetch(`/api/users/${params.user}`);
             <p>{{ user.bio }}</p>
             <div class="d-flex align-items-center gap-2 mb-2">
               <Icon name="bi:github" size="1.3em" />
-              <a :href="`https://github.com${user.ghUser}`" target="_blank">github.com/{{ user.ghUser }}</a>
+              <a :href="`https://github.com/${user.ghUser}`" target="_blank">github.com/{{ user.ghUser }}</a>
             </div>
             <div v-if="user.website" class="d-flex align-items-center gap-2 mb-2">
               <Icon name="solar:earth-bold" size="1.3em" />
