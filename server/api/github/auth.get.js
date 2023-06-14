@@ -22,7 +22,7 @@ export default eventHandler(async (event) => {
   const ghUser = await $fetch("https://api.github.com/user", {
     headers: {
       "User-Agent": `Github-OAuth-${config.github.clientId}`,
-      Authorization: `token ${response.access_token}`
+      Authorization: `Bearer ${response.access_token}`
     }
   }).catch(() => ({}));
 

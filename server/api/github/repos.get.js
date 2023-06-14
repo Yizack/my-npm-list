@@ -37,7 +37,7 @@ export default eventHandler(async (event) => {
   const ghRepos = await $fetch("https://api.github.com/user/repos", {
     headers: {
       "User-Agent": `Github-OAuth-${config.github.clientId}`,
-      Authorization: `token ${response.access_token}`
+      Authorization: `Bearer ${response.access_token}`
     },
     query: {
       affiliation: "owner",
