@@ -7,6 +7,7 @@ setScrollBehavior();
   <NuxtLayout>
     <div id="page">
       <NuxtPage />
+      <BackToTop />
     </div>
   </NuxtLayout>
 </template>
