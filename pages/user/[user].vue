@@ -11,13 +11,15 @@ const isUpdating = ref(false);
 
 const updateList = async () => {
   const time = new Date().getTime();
-  if (time - user.value.listUpdated < 1000 * 60 * 30) {
+  if (time - user.value.listUpdated < 1000 * 60 * 0) {
     return alert("You can only update your list once every 30 minutes. Please try again later.");
   }
   isUpdating.value = true;
   const { data: repos } = await useFetch("/api/github/repos");
   user.value.packages = repos.value.packages;
   user.value.listUpdated = time;
+  const { $bootstrap } = useNuxtApp();
+  $bootstrap.showToast("#notification");
   isUpdating.value = false;
 };
 </script>
@@ -88,6 +90,18 @@ const updateList = async () => {
         </div>
         <div v-if="!user.packages.length" class="text-center">
           <p class="mb-0">No packages found.</p>
+        </div>
+      </div>
+    </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="notification" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <img :src="`https://avatars.githubusercontent.com/u/${user.ghId}?v=4`" height="20" width="20" class="rounded-circle me-2">
+          <strong class="me-auto">{{ user.ghUser }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" />
+        </div>
+        <div class="toast-body">
+          Found {{ user.packages.length }} {{ user.packages.length > 1 ? 'packages' : 'package' }}.
         </div>
       </div>
     </div>
