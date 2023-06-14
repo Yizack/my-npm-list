@@ -88,7 +88,7 @@ const updateList = async () => {
             </div>
           </TransitionGroup>
         </div>
-        <div v-if="!user.packages.length" class="text-center">
+        <div v-if="!user.packages.length" class="text-center mt-2">
           <p class="mb-0">No packages found.</p>
         </div>
       </div>
