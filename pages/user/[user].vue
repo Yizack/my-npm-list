@@ -30,7 +30,7 @@ const updateList = async () => {
           <div class="text-center">
             <img :src="`https://avatars.githubusercontent.com/u/${user.ghId}?v=4`" alt="avatar" class="rounded-circle" width="128" height="128">
             <h3 class="mb-0">{{ user.name }}</h3>
-            <p>{{ user.ghUser }}</p>
+            <p class="text-muted">{{ user.ghUser }}</p>
           </div>
           <p>{{ user.bio }}</p>
           <div class="d-flex align-items-center gap-2 mb-2">
@@ -43,11 +43,11 @@ const updateList = async () => {
           </div>
           <div class="d-flex align-items-center gap-2 mb-2">
             <Icon name="solar:calendar-bold" size="1.3em" />
-            Joined on <span>{{ formatDate(user.joined) }}</span>
+            <span>Joined on {{ formatDate(user.joined) }}</span>
           </div>
           <div class="d-flex align-items-center gap-2 mb-2">
             <Icon name="solar:box-bold" size="1.3em" />
-            {{ user.packages.length }} packages listed
+            {{ user.packages.length }} packages used
           </div>
           <div v-if="loggedIn" class="d-grid gap-2">
             <button v-if="isUpdating" class="btn btn-primary rounded-pill" disabled>
@@ -69,12 +69,12 @@ const updateList = async () => {
         <div v-if="user.packages && user.packages.length" class="row g-2">
           <div v-for="pkg in user.packages" :key="pkg.id" class="col-lg-6">
             <div class="bg-body-tertiary rounded-3 p-3">
-              <div class="d-flex gap-2 mb-1">
+              <div class="d-flex gap-2 align-items-center mb-2">
                 <a :href="`https://www.npmjs.com/package/${pkg.name}`">
                   <Icon name="logos:npm-icon" size="1.3em" />
                 </a>
                 <NuxtLink class="d-flex" :to="`/package/${pkg.name}`">
-                  <h5>{{ pkg.name }}</h5>
+                  <h5 class="m-0">{{ pkg.name }}</h5>
                 </NuxtLink>
               </div>
               <div class="mb-2">

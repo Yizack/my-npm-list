@@ -5,10 +5,10 @@ const { loggedIn, user, clear } = useUserSession();
 <template>
   <nav class="navbar navbar-expand-md bg-body-tertiary sticky-top shadow">
     <div class="container-fluid">
-      <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <button class="navbar-toggler border-0 rounded-pill" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon" />
       </button>
-      <NuxtLink class="navbar-brand me-auto" to="/">my <span class="text-primary-emphasis">npm</span> list</NuxtLink>
+      <NuxtLink class="navbar-brand ms-2 ms-md-0 me-auto" to="/">my <span class="text-primary-emphasis">npm</span> list</NuxtLink>
       <div id="offcanvasNavbar" class="offcanvas offcanvas-start text-white bg-dark" tabindex="-1" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
           <NuxtLink class="navbar-brand" to="/">my <span class="text-primary-emphasis">npm</span> list</NuxtLink>
