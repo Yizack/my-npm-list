@@ -1,5 +1,7 @@
 import "bootstrap/js/dist/offcanvas";
 import "bootstrap/js/dist/dropdown";
+import Modal from "bootstrap/js/dist/modal";
+import Toast from "bootstrap/js/dist/toast";
 
 class Bootstrap {
   hideModal (id) {
@@ -12,6 +14,11 @@ class Bootstrap {
   showModal (id) {
     const modal = new Modal(id);
     modal.show();
+  }
+
+  showToast (id) {
+    const toast = new Toast(id);
+    toast.show();
   }
 };
 
