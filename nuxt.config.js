@@ -18,6 +18,7 @@ export default {
   css: [
     "bootstrap/dist/css/bootstrap.min.css",
     "~/assets/css/main.css",
+    "~/assets/css/transitions.css",
     "~/assets/css/theme-dark.css",
     "~/assets/css/navbar.css"
   ],

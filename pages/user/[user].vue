@@ -1,5 +1,5 @@
 <script setup>
-const { loggedIn } = useUserSession();
+const { loggedIn, user: session } = useUserSession();
 const { params } = useRoute();
 const { data: user } = await useFetch(`/api/users/${params.user}`);
 
@@ -49,7 +49,7 @@ const updateList = async () => {
             <Icon name="solar:box-bold" size="1.3em" />
             {{ user.packages.length }} packages used
           </div>
-          <div v-if="loggedIn" class="d-grid gap-2">
+          <div v-if="loggedIn && session.ghId === user.ghId" class="d-grid gap-2">
             <button v-if="isUpdating" class="btn btn-primary rounded-pill" disabled>
               <div class="spinner-border spinner-border-sm text-light" role="status">
                 <span class="visually-hidden">Loading...</span>
@@ -66,25 +66,27 @@ const updateList = async () => {
           <p class="text-muted small">Last updated: {{ user.listUpdated ? formatDate(user.listUpdated, true) : 'Never' }}</p>
           <p class="mb-0">A list of packages that <strong class="text-primary-emphasis">{{ user.ghUser }}</strong> has used in their projects on GitHub.</p>
         </div>
-        <div v-if="user.packages && user.packages.length" class="row g-2">
-          <div v-for="pkg in user.packages" :key="pkg.id" class="col-lg-6">
-            <div class="bg-body-tertiary rounded-3 p-3">
-              <div class="d-flex gap-2 align-items-center mb-2">
-                <a :href="`https://www.npmjs.com/package/${pkg.name}`">
-                  <Icon name="logos:npm-icon" size="1.3em" />
-                </a>
-                <NuxtLink class="d-flex" :to="`/package/${pkg.name}`">
-                  <h5 class="m-0">{{ pkg.name }}</h5>
-                </NuxtLink>
-              </div>
-              <div class="d-flex flex-wrap gap-2 small">
-                <span class="bg-body px-2 py-1 rounded-pill">Used {{ pkg.count }} {{ pkg.count > 1 ? 'times' : 'time' }}</span>
-                <div v-for="(version, i) of pkg.versions.split(',')" :key="i" class="bg-body px-2 py-1 rounded-pill">{{ version }}</div>
+        <div class="row g-2">
+          <TransitionGroup name="tab">
+            <div v-for="pkg in user.packages" :key="pkg.id" class="col-lg-6">
+              <div class="bg-body-tertiary rounded-3 p-3">
+                <div class="d-flex gap-2 align-items-center mb-2">
+                  <a :href="`https://www.npmjs.com/package/${pkg.name}`">
+                    <Icon name="logos:npm-icon" size="1.3em" />
+                  </a>
+                  <NuxtLink class="d-flex" :to="`/package/${pkg.name}`">
+                    <h5 class="m-0">{{ pkg.name }}</h5>
+                  </NuxtLink>
+                </div>
+                <div class="d-flex flex-wrap gap-2 small">
+                  <span class="bg-body px-2 py-1 rounded-pill">Used {{ pkg.count }} {{ pkg.count > 1 ? 'times' : 'time' }}</span>
+                  <div v-for="(version, i) of pkg.versions.split(',')" :key="i" class="bg-body px-2 py-1 rounded-pill">{{ version }}</div>
+                </div>
               </div>
             </div>
-          </div>
+          </TransitionGroup>
         </div>
-        <div v-else class="text-center">
+        <div v-if="!user.packages.length" class="text-center">
           <p class="mb-0">No packages found.</p>
         </div>
       </div>
