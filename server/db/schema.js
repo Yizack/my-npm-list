@@ -26,4 +26,4 @@ export const lists = sqliteTable("lists", {
   packageId: integer("package_id").notNull().references(() => packages.id),
   versions: text("versions").notNull(),
   count: integer("count").notNull()
-});
+}, table => ({ packageIdIndex: uniqueIndex("package_id_index").on(table.ghId, table.packageId) }));

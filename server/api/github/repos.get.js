@@ -1,4 +1,4 @@
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and, notInArray, sql } from "drizzle-orm";
 
 export default eventHandler(async (event) => {
   const { user, ghTokens } = await requireUserSession(event);
@@ -101,18 +101,22 @@ export default eventHandler(async (event) => {
     return { packages: [] };
   }
 
-  list.map(pkg => eq(tables.lists.packageId, pkg.id));
+  const foundPackages = list.map(pkg => pkg.id);
 
-  await DB.delete(tables.lists).where(eq(tables.lists.ghId, user.ghId)).returning().all();
+  await DB.delete(tables.lists).where(and(eq(tables.lists.ghId, user.ghId), notInArray(tables.lists.packageId, foundPackages))).returning().all();
 
-  await DB.insert(tables.lists).values(
-    list.map(pkg => ({
-      ghId: user.ghId,
-      packageId: pkg.id,
-      versions: pkg.versions.join(",").replace(/\^/g, ""),
-      count: pkg.count
-    }))
-  ).returning().get();
+  await DB.insert(tables.lists).values(list.map(pkg => ({
+    ghId: user.ghId,
+    packageId: pkg.id,
+    versions: pkg.versions.join(",").replace(/\^/g, ""),
+    count: pkg.count
+  }))).onConflictDoUpdate({
+    target: [tables.lists.ghId, tables.lists.packageId],
+    set: {
+      versions: sql`excluded.versions`,
+      count: sql`excluded.count`
+    }
+  }).returning().all();
 
   await DB.update(tables.users).set({
     listUpdated: today

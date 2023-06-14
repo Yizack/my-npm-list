@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "3572855c-42a7-4d6f-b7d2-01418591e45b",
+  "id": "eb177599-88f4-42ba-8d8c-50c52864447d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "lists": {
@@ -42,7 +42,16 @@
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "package_id_index": {
+          "name": "package_id_index",
+          "columns": [
+            "gh_id",
+            "package_id"
+          ],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {
         "lists_gh_id_users_gh_id_fk": {
           "name": "lists_gh_id_users_gh_id_fk",

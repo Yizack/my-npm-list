@@ -26,5 +26,6 @@ CREATE TABLE `users` (
 	`list_updated` integer
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `package_id_index` ON `lists` (`gh_id`,`package_id`);--> statement-breakpoint
 CREATE UNIQUE INDEX `package_name_index` ON `packages` (`name`);--> statement-breakpoint
 CREATE UNIQUE INDEX `gh_user_index` ON `users` (`gh_user`);
