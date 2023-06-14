@@ -11,8 +11,8 @@ const isUpdating = ref(false);
 
 const updateList = async () => {
   const time = new Date().getTime();
-  if (time - user.value.listUpdated < 1000 * 60 * 10) {
-    return alert("You can only update your list once every 10 minutes. Please try again later.");
+  if (time - user.value.listUpdated < 1000 * 60 * 30) {
+    return alert("You can only update your list once every 30 minutes. Please try again later.");
   }
   isUpdating.value = true;
   const { data: repos } = await useFetch("/api/github/repos");
