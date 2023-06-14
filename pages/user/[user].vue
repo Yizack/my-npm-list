@@ -77,11 +77,9 @@ const updateList = async () => {
                   <h5 class="m-0">{{ pkg.name }}</h5>
                 </NuxtLink>
               </div>
-              <div class="mb-2">
-                <span class="bg-body px-2 rounded-pill">Used {{ pkg.count }} {{ pkg.count > 1 ? 'times' : 'time' }}</span>
-              </div>
               <div class="d-flex flex-wrap gap-2 small">
-                <div v-for="(version, i) of pkg.versions.split(',')" :key="i" class="m-0 bg-body px-2 rounded-pill">{{ version }}</div>
+                <span class="bg-body px-2 py-1 rounded-pill">Used {{ pkg.count }} {{ pkg.count > 1 ? 'times' : 'time' }}</span>
+                <div v-for="(version, i) of pkg.versions.split(',')" :key="i" class="bg-body px-2 py-1 rounded-pill">{{ version }}</div>
               </div>
             </div>
           </div>

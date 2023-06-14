@@ -10,11 +10,12 @@ const { data: npm } = await useFetch(`https://registry.npmjs.org/${packageName}`
     <div class="row g-2">
       <div class="col-lg-12">
         <div class="bg-body-tertiary rounded-3 p-3 p-lg-4">
+          <p class="m-0 text-muted">Package</p>
           <h2>{{ pkg.name }}</h2>
           <p v-if="npm.description">{{ npm.description }}</p>
           <div class="d-flex align-items-center gap-2 mb-2">
             <Icon name="solar:calendar-bold" size="1.3em" />
-            <span>Added: {{ formatDate(pkg.added, true) }}</span>
+            <span>First fetch: {{ formatDate(pkg.added, true) }}</span>
           </div>
           <div class="d-flex align-items-center gap-2 mb-2">
             <Icon name="solar:clock-circle-bold" size="1.3em" />
@@ -28,8 +29,8 @@ const { data: npm } = await useFetch(`https://registry.npmjs.org/${packageName}`
             <Icon name="logos:npm-icon" size="1.3em" />
             <a :href="`https://www.npmjs.com/package/${pkg.name}`" target="_blank">npmjs.com/package/{{ pkg.name }}</a>
           </div>
-          <div v-if="npm.keywords" class="d-flex gap-2 mb-2">
-            <span v-for="keyword in npm.keywords" :key="keyword" class="bg-body rounded-pill px-2">{{ keyword }}</span>
+          <div v-if="npm.keywords" class="d-flex gap-2 flex-wrap">
+            <span v-for="keyword in npm.keywords" :key="keyword" class="bg-body rounded-pill px-2 py-1">{{ keyword }}</span>
           </div>
         </div>
       </div>
