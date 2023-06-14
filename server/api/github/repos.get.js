@@ -89,7 +89,6 @@ export default eventHandler(async (event) => {
         }).onConflictDoUpdate({
           target: tables.packages.name,
           set: {
-            added: today,
             lastFetch: today
           }
         }).returning().get();
