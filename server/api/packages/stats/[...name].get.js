@@ -11,5 +11,7 @@ export default defineEventHandler(async (event) => {
     count: tables.lists.count
   }).from(tables.lists).innerJoin(tables.users, eq(tables.lists.ghId, tables.users.ghId)).where(eq(tables.lists.packageId, pkg.id)).orderBy(desc(tables.lists.count)).all();
 
-  return { ...pkg, users };
+  const { description, homepage, keywords } = await $fetch(`https://registry.npmjs.org/${name}`).catch(() => ({}));
+  const npm = { description, homepage, keywords };
+  return { ...pkg, users, npm };
 });
