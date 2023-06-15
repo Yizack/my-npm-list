@@ -90,26 +90,24 @@ const updateList = async () => {
         </div>
         <div class="row g-2">
           <div class="col-12">
-            <div class="bg-body-tertiary rounded-3 p-2 d-flex gap-2">
+            <div class="bg-body-tertiary rounded-3 p-2 d-flex flex-wrap flex-lg-nowrap gap-2">
               <div class="input-group">
                 <span class="input-group-text"><Icon name="solar:magnifer-linear" /></span>
                 <input v-model="search" type="text" class="form-control" placeholder="Search for a package">
               </div>
-              <div class="input-group w-25">
-                <div class="input-group">
-                  <select v-model="filter" class="form-select">
-                    <option selected disabled>Sort by</option>
-                    <option :value="1">Times used</option>
-                    <option :value="2">Alphabetical</option>
-                    <option :value="3">Versions</option>
-                  </select>
-                  <button class="btn btn-primary" @click="desc = !desc">
-                    <Transition name="tab" mode="out-in">
-                      <Icon v-if="desc" name="solar:list-arrow-down-minimalistic-linear" size="1.2rem" />
-                      <Icon v-else name="solar:list-arrow-up-minimalistic-linear" size="1.2rem" />
-                    </Transition>
-                  </button>
-                </div>
+              <div class="input-group">
+                <select v-model="filter" class="form-select">
+                  <option selected disabled>Sort by</option>
+                  <option :value="1">Times used</option>
+                  <option :value="2">Alphabetical</option>
+                  <option :value="3">Versions</option>
+                </select>
+                <button class="btn btn-primary" @click="desc = !desc">
+                  <Transition name="tab" mode="out-in">
+                    <Icon v-if="desc" name="solar:list-arrow-down-minimalistic-linear" size="1.2rem" />
+                    <Icon v-else name="solar:list-arrow-up-minimalistic-linear" size="1.2rem" />
+                  </Transition>
+                </button>
               </div>
             </div>
           </div>
