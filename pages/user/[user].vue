@@ -8,6 +8,26 @@ if (!user.value.ghUser) {
 }
 
 const isUpdating = ref(false);
+const search = ref("");
+const filter = ref(1);
+const desc = ref(true);
+
+const filteredPackages = computed(() => {
+  const packages = user.value.packages.filter(pkg => pkg.name.toLowerCase().includes(search.value.toLowerCase()));
+  // sort by count
+  switch (filter.value) {
+  case 1:
+    return packages.sort((a, b) => desc.value ? b.count - a.count : a.count - b.count);
+  // sort by name
+  case 2:
+    return packages.sort((a, b) => desc.value ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name));
+  // sort by versions length
+  case 3:
+    return packages.sort((a, b) => desc.value ? b.versions.split(",").length - a.versions.split(",").length : a.versions.split(",").length - b.versions.split(",").length);
+  default:
+    return packages;
+  }
+});
 
 const updateList = async () => {
   const time = new Date().getTime();
@@ -69,8 +89,32 @@ const updateList = async () => {
           <p class="mb-0">A list of packages that <strong class="text-primary-emphasis">{{ user.ghUser }}</strong> has used in their projects on GitHub.</p>
         </div>
         <div class="row g-2">
-          <TransitionGroup name="tab">
-            <div v-for="pkg in user.packages" :key="pkg.id" class="col-lg-6">
+          <div class="col-12">
+            <div class="bg-body-tertiary rounded-3 p-2 d-flex gap-2">
+              <div class="input-group">
+                <span class="input-group-text"><Icon name="solar:magnifer-linear" /></span>
+                <input v-model="search" type="text" class="form-control" placeholder="Search for a package">
+              </div>
+              <div class="input-group w-25">
+                <div class="input-group">
+                  <select v-model="filter" class="form-select">
+                    <option selected disabled>Sort by</option>
+                    <option :value="1">Times used</option>
+                    <option :value="2">Alphabetical</option>
+                    <option :value="3">Versions</option>
+                  </select>
+                  <button class="btn btn-primary" @click="desc = !desc">
+                    <Transition name="tab" mode="out-in">
+                      <Icon v-if="desc" name="solar:list-arrow-down-minimalistic-linear" size="1.2rem" />
+                      <Icon v-else name="solar:list-arrow-up-minimalistic-linear" size="1.2rem" />
+                    </Transition>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <TransitionGroup name="tab" mode="out-in">
+            <div v-for="pkg in filteredPackages" :key="pkg.id" class="col-lg-6">
               <div class="bg-body-tertiary rounded-3 p-3">
                 <div class="d-flex gap-2 align-items-center mb-2">
                   <a :href="`https://www.npmjs.com/package/${pkg.name}`">
@@ -88,7 +132,7 @@ const updateList = async () => {
             </div>
           </TransitionGroup>
         </div>
-        <div v-if="!user.packages.length" class="text-center mt-2">
+        <div v-if="!filteredPackages.length" class="text-center mt-2">
           <p class="mb-0">No packages found.</p>
         </div>
       </div>
