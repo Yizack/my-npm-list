@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
   console.log(DB.select({
     name: sql`${tables.packages.name}`.as("name_u"),
     count: sql`COUNT(*)`.as("max_u")
-  }).from(tables.lists).innerJoin(tables.packages, eq(tables.lists.packageId, tables.packages.id)).groupBy(tables.lists.packageId).orderBy(desc(2)).limit(1).toSQQ());
+  }).from(tables.lists).innerJoin(tables.packages, eq(tables.lists.packageId, tables.packages.id)).groupBy(tables.lists.packageId).orderBy(desc(2)).limit(1).toSQL());
 
   const counters = await DB.select({
     packages: packages.pCount,
