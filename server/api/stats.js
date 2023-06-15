@@ -1,15 +1,16 @@
-import { sql, desc, eq } from "drizzle-orm";
+import { sql, desc, eq, asc } from "drizzle-orm";
 
 export default defineEventHandler(async (event) => {
   const DB = useDb();
+
   const packages = DB.select({ pCount: sql`COUNT(*)`.as("p_count") }).from(tables.packages).as("p");
   const users = DB.select({ uCount: sql`COUNT(*)`.as("u_count") }).from(tables.users).as("u");
   const lists = DB.select({ lCount: sql`COUNT(*)`.as("l_count") }).from(tables.lists).as("l");
 
   const mp = DB.select({
     name: sql`${tables.users.ghUser}`.as("name_p"),
-    maxP: sql`COUNT(*)`.as("max_p")
-  }).from(tables.lists).innerJoin(tables.users, eq(tables.lists.ghId, tables.users.ghId)).groupBy(tables.lists.packageId).groupBy(tables.lists.ghId).orderBy(desc(2)).limit(1).as("mp");
+    count: sql`COUNT(*)`.as("max_p")
+  }).from(tables.lists).innerJoin(tables.users, eq(tables.lists.ghId, tables.users.ghId)).groupBy(tables.lists.ghId).orderBy(desc(2)).limit(1).as("mp");
 
   const mc = DB.select({
     name: sql`${tables.packages.name}`.as("name_c"),
@@ -21,6 +22,11 @@ export default defineEventHandler(async (event) => {
     count: sql`COUNT(*)`.as("max_u")
   }).from(tables.lists).innerJoin(tables.packages, eq(tables.lists.packageId, tables.packages.id)).groupBy(tables.lists.packageId).orderBy(desc(2)).limit(1).as("mu");
 
+  console.log(DB.select({
+    name: sql`${tables.packages.name}`.as("name_u"),
+    count: sql`COUNT(*)`.as("max_u")
+  }).from(tables.lists).innerJoin(tables.packages, eq(tables.lists.packageId, tables.packages.id)).groupBy(tables.lists.packageId).orderBy(desc(2)).limit(1).toSQQ());
+
   const counters = await DB.select({
     packages: packages.pCount,
     users: users.uCount,
@@ -28,7 +34,7 @@ export default defineEventHandler(async (event) => {
     max: {
       mostPackageCount: {
         ref: mp.name,
-        count: mp.maxP
+        count: mp.count
       },
       usedPackageNumber: {
         ref: mc.name,
