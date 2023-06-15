@@ -1,7 +1,7 @@
 {
   "name": "my-npm-list",
   "version": "1.0.0",
-  "description": "Web app listing your npm packages used in all your github projects. Log in with github and view your list and the lists of other registered users.",
+  "description": "Web app that fetches all npm packages used in your GitHub projects. Login with your GitHub account, update your package list, and explore the lists of other registered users.",
   "author": "Yizack Rangel",
   "type": "module",
   "homepage": "https://github.com/Yizack/my-npm-list",

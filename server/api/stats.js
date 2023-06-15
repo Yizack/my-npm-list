@@ -1,6 +1,6 @@
 import { sql, desc, eq } from "drizzle-orm";
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
   const DB = useDb();
 
   const packages = DB.select({ pCount: sql`COUNT(*)`.as("p_count") }).from(tables.packages).as("p");
