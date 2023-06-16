@@ -102,7 +102,7 @@ const updateList = async () => {
                   <option :value="2">Alphabetical</option>
                   <option :value="3">Versions</option>
                 </select>
-                <button class="btn btn-primary" @click="desc = !desc">
+                <button class="btn btn-primary" :style="{width:'3rem'}" @click="desc = !desc">
                   <Transition name="tab" mode="out-in">
                     <Icon v-if="desc" name="solar:list-arrow-down-minimalistic-linear" size="1.2rem" />
                     <Icon v-else name="solar:list-arrow-up-minimalistic-linear" size="1.2rem" />
