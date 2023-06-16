@@ -111,7 +111,7 @@ const updateList = async () => {
               </div>
             </div>
           </div>
-          <TransitionGroup name="tab" mode="out-in">
+          <TransitionGroup name="tab">
             <div v-for="pkg in filteredPackages" :key="pkg.id" class="col-lg-6">
               <div class="bg-body-tertiary rounded-3 p-3">
                 <div class="d-flex gap-2 align-items-center mb-2">
