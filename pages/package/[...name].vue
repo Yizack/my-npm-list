@@ -39,7 +39,7 @@ const { data: pkg } = await useFetch(`/api/packages/stats/${packageName}`);
             <h4 class="m-0">Used by</h4>
             <span class="bg-body rounded-pill px-3">{{ pkg.users.length }}</span>
           </div>
-          <p>List of users who have used this package in their projects on GitHub and fetched them on this website.</p>
+          <p>List of users who have used <span class="text-primary-emphasis"><strong>{{ pkg.name }}</strong></span> in their projects on GitHub and fetched them on this website.</p>
           <div class="d-flex gap-2">
             <NuxtLink v-for="pkgUser of pkg.users" :key="pkgUser.ghId" :to="`/user/${pkgUser.ghUser}`">
               <img :src="`https://avatars.githubusercontent.com/u/${pkgUser.ghId}?v=4`" alt="avatar" class="rounded-circle" width="48" height="48">
