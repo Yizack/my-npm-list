@@ -19,15 +19,15 @@
 
 .btn-dark {
   --bs-btn-color: var(--color-text);
-  --bs-btn-bg: var(--color-surface-mixed-300);
+  --bs-btn-bg: var(--color-surface-mixed-200);
   --bs-btn-border-color: var(--color-surface-mixed-300);
   --bs-btn-hover-color: var(--color-text);
-  --bs-btn-hover-bg: var(--color-surface-mixed-400);
-  --bs-btn-hover-border-color: var(--color-surface-mixed-400);
+  --bs-btn-hover-bg: var(--color-surface-mixed-100);
+  --bs-btn-hover-border-color: var(--color-surface-mixed-300);
   --bs-btn-active-color: var(--color-text);
-  --bs-btn-active-bg: var(--color-surface-mixed-300);
+  --bs-btn-active-bg: var(--color-surface-mixed-100);
   --bs-btn-active-border-color: var(--color-surface-mixed-300);
   --bs-btn-disabled-color: var(--color-text);
-  --bs-btn-disabled-bg: var(--color-surface-mixed-300);
+  --bs-btn-disabled-bg: var(--color-surface-mixed-100);
   --bs-btn-disabled-border-color: var(--color-surface-mixed-300);
 }

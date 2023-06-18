@@ -24,7 +24,7 @@ const { loggedIn, user, clear } = useUserSession();
       </div>
       <div class="ms-3">
         <div v-if="loggedIn" class="nav-item dropdown">
-          <button class="button btn border rounded-pill dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="button btn btn-dark rounded-pill dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <img :src="`https://avatars.githubusercontent.com/u/${user.ghId}?v=4`" alt="avatar" class="rounded-circle" width="24" height="24">
             <span class="d-none d-md-inline ms-2">{{ user.ghUser }}</span>
           </button>
