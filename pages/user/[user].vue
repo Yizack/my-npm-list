@@ -78,7 +78,7 @@ const updateList = async () => {
               </div>
             </button>
             <button v-else class="btn btn-primary rounded-pill" @click="updateList()">Update List</button>
-            <button class="btn bg-body-secondary border rounded-pill">Edit Profile</button>
+            <button class="btn btn-dark rounded-pill">Edit Profile</button>
           </div>
         </div>
       </div>
