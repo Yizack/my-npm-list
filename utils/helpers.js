@@ -8,3 +8,7 @@ export const formatDate = (date, time = undefined) => {
     hour12: time ? false : undefined
   });
 };
+
+export const normalize = (string) => {
+  return string.normalize("NFD").replace(/[\u0300-\u036F]/g, "");
+};
