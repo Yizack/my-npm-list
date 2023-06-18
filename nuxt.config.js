@@ -20,7 +20,8 @@ export default {
     "~/assets/css/main.css",
     "~/assets/css/transitions.css",
     "~/assets/css/theme-dark.css",
-    "~/assets/css/navbar.css"
+    "~/assets/css/navbar.css",
+    "~/assets/css/buttons.css"
   ],
   modules: [
     "nuxt-icon",
