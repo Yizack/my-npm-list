@@ -15,7 +15,7 @@ const { data: counters } = useFetch("/api/stats");
             <h5 class="text-muted m-0">{{ counter.description }}</h5>
           </div>
           <div class="position-absolute top-0 end-0 my-3 mx-3">
-            <span v-if="counter.ref" class="bg-body rounded-pill px-2 py-1">{{ counter.type }}</span>
+            <span v-if="counter.ref" class="bg-primary rounded-pill px-2 py-1 fw-bold">{{ counter.type }}</span>
           </div>
         </div>
       </div>

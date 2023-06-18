@@ -30,7 +30,7 @@ const { loggedIn, user, clear } = useUserSession();
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><NuxtLink class="dropdown-item" :to="`/user/${user.ghUser}`">Profile</NuxtLink></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><NuxtLink class="dropdown-item" to="/settings">Settings</NuxtLink></li>
             <li><hr class="dropdown-divider"></li>
             <li><button class="dropdown-item" @click="clear"><Icon name="solar:exit-linear" /> Logout</button></li>
           </ul>

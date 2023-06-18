@@ -1,4 +1,6 @@
 :root * {
+  --bs-primary: var(--color-primary-500);
+  --bs-primary-rgb: var(--color-primary-500-rgb);
   --bs-primary-text-emphasis: var(--color-primary-500);
   --bs-body-bg: var(--color-surface-mixed-100);
   --bs-body-bg-rgb: var(--color-surface-mixed-100-rgb);
@@ -42,10 +44,14 @@ a:hover {
 }
 
 ::selection {
-  background: var(--color-primary-500);
+  background: var(--color-primary-600);
   color: var(--bs-body-bg)!important;
 }
 
 .dropdown-menu {
   --bs-dropdown-link-active-bg: var(--color-surface-mixed-300);
+}
+
+.bg-primary {
+  color: var(--bs-body-bg)
 }

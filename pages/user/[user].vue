@@ -78,7 +78,7 @@ const updateList = async () => {
               </div>
             </button>
             <button v-else class="btn btn-primary rounded-pill" @click="updateList()">Update List</button>
-            <button class="btn btn-dark rounded-pill">Edit Profile</button>
+            <NuxtLink class="btn btn-dark rounded-pill" to="/settings">Edit Profile</NuxtLink>
           </div>
         </div>
       </div>

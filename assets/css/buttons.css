@@ -2,6 +2,10 @@
   font-weight: bold;
 }
 
+a.btn {
+  text-decoration: none;
+}
+
 .btn-primary {
   --bs-btn-color: var(--bs-body-bg);
   --bs-btn-bg: var(--color-primary-500);
