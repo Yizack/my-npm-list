@@ -73,7 +73,7 @@ const updateList = async () => {
           </div>
           <div v-if="loggedIn && session.ghId === user.ghId" class="d-grid gap-2">
             <button v-if="isUpdating" class="btn btn-primary rounded-pill" disabled>
-              <div class="spinner-border spinner-border-sm text-light" role="status">
+              <div class="spinner-border spinner-border-sm" role="status">
                 <span class="visually-hidden">Loading...</span>
               </div>
             </button>
