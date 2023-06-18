@@ -41,7 +41,7 @@ const { data: pkg } = await useFetch(`/api/packages/stats/${packageName}`);
           </div>
           <p>List of users who have used <span class="text-primary-emphasis"><strong>{{ pkg.name }}</strong></span> in their projects on GitHub and fetched them on this website.</p>
           <div class="d-flex gap-2">
-            <NuxtLink v-for="pkgUser of pkg.users" :key="pkgUser.ghId" :to="`/user/${pkgUser.ghUser}`">
+            <NuxtLink v-for="pkgUser of pkg.users" :key="pkgUser.ghId" :to="`/user/${pkgUser.ghUser}`" data-bs-toggle="popover" data-bs-trigger="hover" :data-bs-content="userHtmlInfo(pkgUser, pkg.name)" data-bs-placement="top" data-bs-container="body" data-bs-html="true">
               <img :src="`https://avatars.githubusercontent.com/u/${pkgUser.ghId}?v=4`" alt="avatar" class="rounded-circle" width="48" height="48">
             </NuxtLink>
           </div>
@@ -50,3 +50,28 @@ const { data: pkg } = await useFetch(`/api/packages/stats/${packageName}`);
     </div>
   </main>
 </template>
+
+<script>
+export default {
+  mounted () {
+    this.$nuxt.$bootstrap.initPopover();
+  },
+  beforeUnmount () {
+    this.$nuxt.$bootstrap.disposePopover();
+  },
+  methods: {
+    userHtmlInfo (user, pkg) {
+      return `
+        <div class="d-flex gap-2 align-items-center mb-2">
+          <img src="https://avatars.githubusercontent.com/u/${user.ghId}?v=4" alt="avatar" class="rounded-circle" width="48" height="48">
+          <div>
+            <h6 class="m-0">${user.ghName}</h6>
+            <p class="m-0 text-muted">${user.ghUser}</p>
+          </div>
+        </div>
+        <p class="m-0">Has used <strong class="text-primary-emphasis">${pkg}</strong> <strong>${user.count}</strong> ${user.count > 1 ? "times" : "time"}.</p>
+      `.replace(/\s+/gm, " ").trim();
+    }
+  }
+};
+</script>
