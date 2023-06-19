@@ -16,18 +16,18 @@ definePageMeta({ middleware: "session" });
               <label>Username</label>
             </div>
             <div class="form-floating mb-2">
-              <input v-model="user.name" type="text" class="form-control" placeholder="Name" required>
+              <input v-model.trim="user.name" type="text" class="form-control" placeholder="Name" required>
               <label>Name</label>
             </div>
             <div class="form-floating mb-2">
-              <textarea v-model="user.bio" class="form-control" placeholder="Bio" :style="{ height: '100px' }" required />
+              <textarea v-model.trim="user.bio" class="form-control" placeholder="Bio" :style="{ height: '100px' }" required />
               <label>Bio</label>
             </div>
             <div class="position-relative">
               <div class="input-group">
                 <span class="input-group-text">
                   <Twemoji v-if="country.code" :emoji="countries.getEmoji(country.code)" size="2rem" />
-                  <Icon v-else name="solar:magnifer-linear" />
+                  <Icon v-else name="solar:magnifer-linear" size="1.5em" />
                 </span>
                 <div class="form-floating position-relative">
                   <input v-model="country.search" type="text" class="form-control" placeholder="Country" @focus="country.focus = true;">
