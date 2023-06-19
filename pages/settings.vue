@@ -26,7 +26,7 @@ definePageMeta({ middleware: "session" });
             <div class="position-relative">
               <div class="input-group">
                 <span class="input-group-text">
-                  <Twemoji v-if="country.code" :emoji="countries.getEmoji(country.code)" size="2rem" />
+                  <Twemoji v-if="country.code" :emoji="countries.getEmoji(user.country)" size="2rem" />
                   <Icon v-else name="solar:magnifer-linear" size="1.5em" />
                 </span>
                 <div class="form-floating position-relative">
