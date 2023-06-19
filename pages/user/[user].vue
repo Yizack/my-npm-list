@@ -56,19 +56,23 @@ const updateList = async () => {
           </div>
           <p>{{ user.bio }}</p>
           <div class="d-flex align-items-center gap-2 mb-2">
-            <Icon name="bi:github" size="1.3em" />
+            <Icon class="flex-shrink-0" name="bi:github" size="1.3em" />
             <a :href="`https://github.com/${user.ghUser}`" target="_blank">github.com/{{ user.ghUser }}</a>
           </div>
-          <div v-if="user.website" class="d-flex align-items-center gap-2 mb-2">
-            <Icon name="solar:earth-bold" size="1.3em" />
+          <div v-if="user.website" class="d-flex align-items-center gap-2 mb-2 text-break">
+            <Icon class="flex-shrink-0" name="solar:earth-bold" size="1.3em" />
             <a :href="user.website" target="_blank">{{ user.website }}</a>
           </div>
+          <div v-if="user.country" class="d-flex align-items-center gap-2 mb-2 text-break">
+            <Twemoji class="flex-shrink-0" :emoji="countries.getEmoji(user.country)" size="1.3em" />
+            {{ countries.getName(user.country) }}
+          </div>
           <div class="d-flex align-items-center gap-2 mb-2">
-            <Icon name="solar:calendar-bold" size="1.3em" />
+            <Icon class="flex-shrink-0" name="solar:calendar-bold" size="1.3em" />
             <span>Joined on {{ formatDate(user.joined) }}</span>
           </div>
           <div class="d-flex align-items-center gap-2 mb-2">
-            <Icon name="solar:box-bold" size="1.3em" />
+            <Icon class="flex-shrink-0" name="solar:box-bold" size="1.3em" />
             {{ user.packages.length }} packages used
           </div>
           <div v-if="loggedIn && session.ghId === user.ghId" class="d-grid gap-2">
@@ -135,17 +139,6 @@ const updateList = async () => {
         </div>
       </div>
     </div>
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-      <div id="notification" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-          <img :src="`https://avatars.githubusercontent.com/u/${user.ghId}?v=4`" height="20" width="20" class="rounded-circle me-2">
-          <strong class="me-auto">{{ user.ghUser }}</strong>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" />
-        </div>
-        <div class="toast-body">
-          Found {{ user.packages.length }} {{ user.packages.length > 1 ? 'packages' : 'package' }}.
-        </div>
-      </div>
-    </div>
+    <NotificationToast :user="user" :text="`Found ${user.packages.length} ${user.packages.length > 1 ? 'packages' : 'package'}`" />
   </main>
 </template>
