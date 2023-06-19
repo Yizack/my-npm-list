@@ -35,10 +35,10 @@ definePageMeta({ middleware: "session" });
                   <button v-if="country.focus" type="button" class="btn btn-danger position-absolute end-0 top-50 translate-middle-y me-2" @click="removeCountry(); user.country = null"><Icon name="solar:trash-bin-minimalistic-linear" size="1.3rem" /></button>
                 </div>
               </div>
-              <div class="position-relative z-3 mt-2">
-                <ul :class="`select-list position-absolute rounded border bg-body py-2 px-0 shadow w-100 m-0 ${country.focus ? 'd-block' : 'd-none'}`">
+              <div v-if="country.focus" class="position-relative z-3 mt-2">
+                <ul class="select-list position-absolute rounded border bg-body py-2 px-0 shadow w-100 m-0">
                   <li v-for="countryOption of countriesFilter" :key="countryOption.code" role="button" class="py-2 px-3" @click="selectCountry(countryOption); user.country = countryOption.code">
-                    <Twemoji :emoji="countryOption.emoji" class="me-2" size="2rem" />
+                    <Twemoji :emoji="countryOption.emoji" class="me-2" size="2rem" png />
                     {{ countryOption.name }}
                   </li>
                   <li v-if="!countriesFilter.length" class="py-2 px-3"><i>No results found</i></li>
