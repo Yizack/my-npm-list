@@ -32,12 +32,12 @@ definePageMeta({ middleware: "session" });
                 <div class="form-floating position-relative">
                   <input v-model="country.search" type="text" class="form-control" placeholder="Country" @focus="country.focus = true;">
                   <label>Country</label>
-                  <button v-if="country.focus" type="button" class="btn btn-danger position-absolute end-0 top-50 translate-middle-y me-2" @click="removeCountry(); user.country = null"><Icon name="solar:trash-bin-minimalistic-linear" size="1.3rem" /></button>
+                  <button v-if="country.focus" type="button" class="btn btn-danger position-absolute end-0 top-50 translate-middle-y me-2" @click="removeCountry()"><Icon name="solar:trash-bin-minimalistic-linear" size="1.3rem" /></button>
                 </div>
               </div>
               <div v-if="country.focus" class="position-relative z-3 mt-2">
                 <ul class="select-list position-absolute rounded border bg-body py-2 px-0 shadow w-100 m-0">
-                  <li v-for="countryOption of countriesFilter" :key="countryOption.code" role="button" class="py-2 px-3" @click="selectCountry(countryOption); user.country = countryOption.code">
+                  <li v-for="countryOption of countriesFilter" :key="countryOption.code" role="button" class="py-2 px-3" @click="selectCountry(countryOption)">
                     <Twemoji :emoji="countryOption.emoji" class="me-2" size="2rem" png />
                     {{ countryOption.name }}
                   </li>
@@ -124,11 +124,13 @@ export default {
       this.country.focus = false;
       this.country.search = "";
       this.country.code = null;
+      this.user.country = null;
     },
     selectCountry (country) {
       this.country.focus = false;
       this.country.search = country.name;
       this.country.code = country.code;
+      this.user.country = country.code;
     },
     async saveProfile () {
       this.saving = true;
