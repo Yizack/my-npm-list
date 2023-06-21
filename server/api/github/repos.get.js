@@ -10,34 +10,11 @@ export default eventHandler(async (event) => {
   }
 
   const config = useRuntimeConfig(event);
-  const response = await $fetch("https://github.com/login/oauth/access_token", {
-    method: "POST",
-    body: {
-      client_id: config.github.clientId,
-      client_secret: config.github.clientSecret,
-      grant_type: "refresh_token",
-      refresh_token: ghTokens.refresh_token
-    }
-  });
-
-  if (response.error) {
-    throw createError({
-      status: 401,
-      message: "Unauthorized"
-    });
-  }
-
-  await setUserSession(event, {
-    user,
-    ghTokens: {
-      refresh_token: response.refresh_token
-    }
-  });
 
   const ghRepos = await $fetch("https://api.github.com/user/repos", {
     headers: {
       "User-Agent": `Github-OAuth-${config.github.clientId}`,
-      Authorization: `Bearer ${response.access_token}`
+      Authorization: `Bearer ${ghTokens.access_token}`
     },
     query: {
       affiliation: "owner",
@@ -60,7 +37,7 @@ export default eventHandler(async (event) => {
       const file = await $fetch(`https://api.github.com/repos/${user.ghUser}/${name}/contents/package.json`, {
         headers: {
           "User-Agent": `Github-OAuth-${config.github.clientId}`,
-          Authorization: `token ${response.access_token}`,
+          Authorization: `Bearer ${ghTokens.access_token}`,
           Accept: "application/vnd.github+json"
         }
       }).catch(() => ({}));

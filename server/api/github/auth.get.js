@@ -44,7 +44,7 @@ export default eventHandler(async (event) => {
   await setUserSession(event, {
     user,
     ghTokens: {
-      refresh_token: response.refresh_token
+      access_token: response.access_token
     }
   });
 
