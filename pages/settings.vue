@@ -20,7 +20,7 @@ definePageMeta({ middleware: "session" });
               <label>Name</label>
             </div>
             <div class="form-floating mb-2">
-              <textarea v-model.trim="user.bio" class="form-control" placeholder="Bio" :style="{ height: '100px' }" required />
+              <textarea v-model.trim="user.bio" class="form-control" placeholder="Bio" :style="{ height: '100px' }" />
               <label>Bio</label>
             </div>
             <div class="position-relative">
