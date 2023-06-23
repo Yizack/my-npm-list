@@ -24,7 +24,7 @@
     "@nuxtjs/eslint-config": "^12.0.0",
     "better-sqlite3": "^8.4.0",
     "eslint": "^8.43.0",
-    "nuxt": "^3.5.3",
+    "nuxt": "^3.6.0",
     "nuxt-icon": "^0.4.1"
   },
   "dependencies": {
