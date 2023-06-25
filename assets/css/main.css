@@ -68,3 +68,11 @@ a:hover {
 .select-list li:hover {
   background-color: var(--bs-tertiary-bg);
 }
+
+input:read-only {
+  background-color: var(--bs-tertiary-bg)!important;
+}
+
+.form-floating>:read-only~label::after {
+  background-color: var(--bs-tertiary-bg)!important;
+}
