@@ -129,13 +129,13 @@ const updateList = async () => {
           </div>
           <TransitionGroup name="tab">
             <div v-for="pkg in filteredPackages" :key="pkg.id" class="col-lg-6">
-              <div class="bg-body-tertiary rounded-3 p-3">
+              <div class="bg-body-tertiary rounded-3 p-3 h-100">
                 <div class="d-flex gap-2 align-items-center mb-2">
                   <a :href="`https://www.npmjs.com/package/${pkg.name}`">
                     <Icon name="logos:npm-icon" size="1.3em" />
                   </a>
                   <NuxtLink class="d-flex" :to="`/package/${pkg.name}`">
-                    <h5 class="m-0">{{ pkg.name }}</h5>
+                    <h5 class="m-0 text-break">{{ pkg.name }}</h5>
                   </NuxtLink>
                 </div>
                 <div class="d-flex flex-wrap gap-2 small">
