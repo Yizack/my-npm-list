@@ -113,7 +113,7 @@ const updateList = async () => {
               </div>
               <div class="input-group">
                 <select v-model="filter" class="form-select">
-                  <option selected disabled>Sort by</option>
+                  <option :value="0" disabled>Sort by</option>
                   <option :value="1">Times used</option>
                   <option :value="2">Alphabetical</option>
                   <option :value="3">Versions</option>
