@@ -15,8 +15,8 @@ const { data: users } = await useFetch("/api/recent");
                   <img :src="`https://avatars.githubusercontent.com/u/${user.ghId}?v=4&s=24`" alt="avatar" class="rounded-circle me-2" width="24" height="24">
                   <span class="text-break"><strong>{{ user.ghUser }}</strong></span>
                 </NuxtLink>
-                <Icon class="flex-shrink-0" name="solar:clock-circle-linear" />
-                <span class="flex-fill flex-shrink-0">{{ getTimeAgo(user.joined) }}</span>
+                <Icon class="flex-shrink-0 text-primary-emphasis" name="solar:clock-circle-linear" />
+                <span class="flex-fill flex-shrink-0 text-muted">{{ getTimeAgo(user.joined) }}</span>
               </div>
             </div>
           </div>
