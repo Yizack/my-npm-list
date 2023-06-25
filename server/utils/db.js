@@ -5,7 +5,7 @@ import * as tables from "~/server/db/schema.js";
 
 export { tables };
 
-let _db = drizzle();
+let _db = drizzleD1();
 export const useDb = () => {
   if (!_db.session.client) {
     if (process.env.DB) {
