@@ -42,8 +42,7 @@ useHead({
               <p>To create your list you must follow the following steps:</p>
               <ol>
                 <li>Click on the <strong>Log in with GitHub</strong> button.</li>
-                <li>Authorize the application to access your GitHub account.</li>
-                <li>After authorizing for the first time, your profile will be created.</li>
+                <li>Authorize the application to access your GitHub account. After authorizing for the first time, your profile will be created.</li>
                 <li>Click on your username in the top right corner to open a dropdown menu.</li>
                 <li>Click on <strong>Profile</strong> to go to your profile page.</li>
                 <li>Click on the <strong>Update List</strong> button to fetch your packages.</li>
