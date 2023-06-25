@@ -11,6 +11,10 @@ const isUpdating = ref(false);
 const search = ref("");
 const filter = ref(1);
 const desc = ref(true);
+const toast = ref({
+  message: "",
+  success: false
+});
 
 const filteredPackages = computed(() => {
   const packages = user.value.packages.filter(pkg => pkg.name.toLowerCase().includes(search.value.toLowerCase()));
@@ -38,6 +42,14 @@ const updateList = async () => {
   const repos = await $fetch("/api/github/repos").catch(() => ({ packages: [] }));
   user.value.packages = repos.packages;
   user.value.listUpdated = time;
+  if (repos.packages.length) {
+    toast.value.success = true;
+    toast.value.message = `Found ${repos.packages.length} ${repos.packages.length > 1 ? "packages" : "package"}`;
+  }
+  else {
+    toast.value.success = false;
+    toast.value.message = "An error occurred while fetching your packages. Please try again later";
+  }
   const { $bootstrap } = useNuxtApp();
   $bootstrap.showToast("#notification");
   isUpdating.value = false;
@@ -139,6 +151,6 @@ const updateList = async () => {
         </div>
       </div>
     </div>
-    <NotificationToast :user="user" :text="`Found ${user.packages.length} ${user.packages.length > 1 ? 'packages' : 'package'}`" />
+    <NotificationToast :user="user" :text="toast.message" :success="toast.success" />
   </main>
 </template>

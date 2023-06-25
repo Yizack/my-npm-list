@@ -84,7 +84,7 @@ definePageMeta({ middleware: "session" });
         </div>
       </div>
     </form>
-    <NotificationToast :user="user" text="Your profile has been saved." />
+    <NotificationToast :user="user" :text="toast.message" :success="toast.success" />
   </section>
 </template>
 
@@ -94,6 +94,10 @@ export default {
     return {
       user: useUserSession().user,
       saving: false,
+      toast: {
+        message: "",
+        success: false
+      },
       country: {
         search: "",
         code: null,
@@ -140,6 +144,12 @@ export default {
       }).catch(() => ({}));
       if (req.ghId) {
         this.$nuxt.$bootstrap.showToast("#notification");
+        this.toast.success = true;
+        this.toast.message = "Profile saved successfully";
+      }
+      else {
+        this.toast.success = false;
+        this.toast.message = "An error occurred while saving your profile";
       }
       this.saving = false;
     }
