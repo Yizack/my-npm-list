@@ -16,6 +16,7 @@ a {
   color: inherit;
   text-decoration: dashed underline;
   text-decoration-thickness: 1px;
+  text-decoration-color: var(--color-surface-mixed-600);
 }
 
 a:hover {
