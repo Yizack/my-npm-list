@@ -81,7 +81,7 @@ const { data: start } = await useFetch("/api/start");
                   <NuxtLink :to="`/package/${pkg.name}`" class="d-flex align-items-center">
                     <span class="text-break"><strong>{{ pkg.name }}</strong></span>
                   </NuxtLink>
-                  <span class="flex-shrink-0 text-muted">{{ pkg.count }} users</span>
+                  <span class="flex-shrink-0 text-muted">{{ pkg.count }} {{ pkg.count > 1 ? 'users' : 'user' }}</span>
                 </div>
               </div>
               <hr>
@@ -92,7 +92,7 @@ const { data: start } = await useFetch("/api/start");
                   <NuxtLink :to="`/package/${pkg.name}`" class="d-flex align-items-center">
                     <span class="text-break"><strong>{{ pkg.name }}</strong></span>
                   </NuxtLink>
-                  <span class="flex-shrink-0 text-muted">{{ pkg.count }} times used</span>
+                  <span class="flex-shrink-0 text-muted">used {{ pkg.count }} {{ pkg.count > 1 ? 'times' : 'time' }}</span>
                 </div>
               </div>
             </div>
