@@ -7,6 +7,29 @@ if (!user.value.ghUser) {
   navigateTo("/404");
 }
 
+useSeoMeta({
+  title: `${user.value.ghUser} (${user.value.name}) | ${SITE.name}`,
+  description: user.value.bio,
+  keywords: `${user.value.ghUser}, npm, packages, github, list, dependencies, devDependencies, user, profile`,
+  // Open Graph
+  ogType: "website",
+  ogTitle: `${user.value.ghUser} (${user.value.name}) | ${SITE.name}`,
+  ogSiteName: SITE.name,
+  ogDescription: user.value.bio,
+  ogUrl: `${SITE.url}/user/${user.value.ghUser}`,
+  // Twitter
+  twitterCard: "summary",
+  twitterTitle: `${user.value.ghUser} (${user.value.name}) | ${SITE.name}`,
+  twitterCreator: SITE.author.twitter,
+  twitterDescription: user.value.bio
+});
+
+useHead({
+  link: [
+    { rel: "canonical", href: `${SITE.url}/user/${user.value.ghUser}` }
+  ]
+});
+
 const isUpdating = ref(false);
 const search = ref("");
 const filter = ref(1);

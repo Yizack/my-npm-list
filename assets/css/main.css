@@ -77,3 +77,7 @@ input:read-only {
 .form-floating>:read-only~label::after {
   background-color: var(--bs-tertiary-bg)!important;
 }
+
+code {
+  color: var(--color-primary-500);
+}

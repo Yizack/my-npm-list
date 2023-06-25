@@ -1,5 +1,28 @@
 <script setup>
 const { data: start } = await useFetch("/api/start");
+
+useSeoMeta({
+  title: SITE.name,
+  description: SITE.description,
+  keywords: "npm, packages, github, list, dependencies, registry, repository",
+  // Open Graph
+  ogType: "website",
+  ogTitle: SITE.name,
+  ogSiteName: SITE.name,
+  ogDescription: SITE.description,
+  ogUrl: SITE.url,
+  // Twitter
+  twitterCard: "summary",
+  twitterTitle: SITE.name,
+  twitterCreator: SITE.author.twitter,
+  twitterDescription: SITE.description
+});
+
+useHead({
+  link: [
+    { rel: "canonical", href: SITE.url }
+  ]
+});
 </script>
 
 <template>

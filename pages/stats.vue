@@ -1,5 +1,30 @@
 <script setup>
 const { data: counters } = useFetch("/api/stats");
+
+const description = "Statistics about the packages used by registered users.";
+
+useSeoMeta({
+  title: `Stats | ${SITE.name}`,
+  description,
+  keywords: "stats, statistics, npm, packages, users, list, registry",
+  // Open Graph
+  ogType: "website",
+  ogTitle: `Stats | ${SITE.name}`,
+  ogSiteName: SITE.name,
+  ogDescription: description,
+  ogUrl: `${SITE.url}/stats`,
+  // Twitter
+  twitterCard: "summary",
+  twitterTitle: `Stats | ${SITE.name}`,
+  twitterCreator: SITE.author.twitter,
+  twitterDescription: description
+});
+
+useHead({
+  link: [
+    { rel: "canonical", href: `${SITE.url}/stats` }
+  ]
+});
 </script>
 
 <template>
