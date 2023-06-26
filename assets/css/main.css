@@ -10,18 +10,8 @@
   --bs-emphasis-color-rgb: var(--color-text-rgb);
   --bs-body-color: var(--color-text);
   --bs-body-color-rgb: var(--color-text-rgb);
-}
-
-a {
-  color: inherit;
-  text-decoration: dashed underline;
-  text-decoration-thickness: 1px;
-  text-decoration-color: var(--color-surface-mixed-600);
-}
-
-a:hover {
-  color: var(--bs-primary-text-emphasis);
-  text-decoration: underline;
+  scrollbar-color: var(--color-primary-500) var(--bs-secondary-bg);
+  scrollbar-width: auto;
 }
 
 *::-webkit-scrollbar {
@@ -47,6 +37,18 @@ a:hover {
 ::selection {
   background: var(--color-primary-600);
   color: var(--bs-body-bg)!important;
+}
+
+a {
+  color: inherit;
+  text-decoration: dashed underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--color-surface-mixed-600);
+}
+
+a:hover {
+  color: var(--bs-primary-text-emphasis);
+  text-decoration: underline;
 }
 
 .dropdown-menu {
