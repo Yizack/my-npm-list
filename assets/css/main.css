@@ -1,17 +1,6 @@
-:root * {
-  --bs-primary: var(--color-primary-500);
-  --bs-primary-rgb: var(--color-primary-500-rgb);
-  --bs-primary-text-emphasis: var(--color-primary-500);
-  --bs-body-bg: var(--color-surface-mixed-100);
-  --bs-body-bg-rgb: var(--color-surface-mixed-100-rgb);
-  --bs-tertiary-bg: var(--color-surface-mixed-200);
-  --bs-tertiary-bg-rgb: var(--color-surface-mixed-200-rgb);
-  --bs-emphasis-color: var(--color-text);
-  --bs-emphasis-color-rgb: var(--color-text-rgb);
-  --bs-body-color: var(--color-text);
-  --bs-body-color-rgb: var(--color-text-rgb);
-  scrollbar-color: var(--color-primary-500) var(--bs-secondary-bg);
-  scrollbar-width: auto;
+:root {
+  scrollbar-color: var(--bs-primary) var(--color-surface-mixed-150);
+  scrollbar-width: thin;
 }
 
 *::-webkit-scrollbar {
@@ -19,7 +8,7 @@
 }
 
 *::-webkit-scrollbar-track {
-  background-color: var(--bs-secondary-bg);
+  background-color: var(--color-surface-mixed-150);
 }
 
 *::-webkit-scrollbar-thumb {
@@ -81,5 +70,5 @@ input:read-only {
 }
 
 code {
-  color: var(--color-primary-500);
+  color: var(--bs-primary);
 }

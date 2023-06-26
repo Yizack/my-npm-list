@@ -1,4 +1,4 @@
-[data-bs-theme=dark] {
+:root, [data-bs-theme=dark] {
   /** CSS DARK THEME PRIMARY COLORS */
   --color-primary-100: #6ea8fe;
   --color-primary-200: #82b1fe;
@@ -10,14 +10,30 @@
   /** CSS DARK THEME MIXED SURFACE COLORS */
   --color-surface-mixed-100: #20232a;
   --color-surface-mixed-100-rgb: 32, 35, 42;
+  --color-surface-mixed-150: #2a2d33;
+  --color-surface-mixed-150-rgb: 42, 45, 51;
   --color-surface-mixed-200: #35383e;
   --color-surface-mixed-200-rgb: 53, 56, 62;
   --color-surface-mixed-300: #4b4d53;
   --color-surface-mixed-400: #62646a;
   --color-surface-mixed-500: #7a7c81;
   --color-surface-mixed-600: #939599;
-
-  --bs-heading-color: #f9f9f9;
+  
   --color-text: #e3e3e3;
   --color-text-rgb: 227, 227, 227;
+
+  --bs-heading-color: #f9f9f9;
+  --bs-primary: var(--color-primary-500);
+  --bs-primary-rgb: var(--color-primary-500-rgb);
+  --bs-primary-text-emphasis: var(--color-primary-500);
+  --bs-body-bg: var(--color-surface-mixed-100);
+  --bs-body-bg-rgb: var(--color-surface-mixed-100-rgb);
+  --bs-tertiary-bg: var(--color-surface-mixed-200);
+  --bs-tertiary-bg-rgb: var(--color-surface-mixed-200-rgb);
+  --bs-secondary-bg: var(--color-surface-mixed-200);
+  --bs-secondary-bg-rgb: var(--color-surface-mixed-200-rgb);
+  --bs-emphasis-color: var(--color-text);
+  --bs-emphasis-color-rgb: var(--color-text-rgb);
+  --bs-body-color: var(--color-text);
+  --bs-body-color-rgb: var(--color-text-rgb);
 }
