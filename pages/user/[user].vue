@@ -4,7 +4,11 @@ const { params } = useRoute();
 const { data: user } = await useFetch(`/api/users/${params.user}`);
 
 if (!user.value.ghUser) {
-  navigateTo("/404");
+  throw createError({
+    statusCode: 404,
+    message: `User not found: '${params.user}'`,
+    fatal: true
+  });
 }
 
 useSeoMeta({
