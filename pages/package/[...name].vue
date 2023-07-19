@@ -3,6 +3,14 @@ const { params } = useRoute();
 const packageName = params.name.join("/");
 const { data: pkg } = await useFetch(`/api/packages/stats/${packageName}`);
 
+if (!pkg.value) {
+  throw createError({
+    statusCode: 404,
+    message: `Package not found: '${packageName}'`,
+    fatal: true
+  });
+}
+
 useSeoMeta({
   title: `Package: ${packageName} | ${SITE.name}`,
   description: pkg.value.npm.description,
