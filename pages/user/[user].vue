@@ -161,7 +161,7 @@ const updateList = async () => {
             </div>
           </div>
           <TransitionGroup name="tab">
-            <div v-for="pkg in filteredPackages" :key="pkg.id" class="col-lg-6">
+            <div v-for="pkg in filteredPackages" :key="pkg.id" class="col-md-6 col-xl-4">
               <div class="bg-body-tertiary rounded-3 p-3 h-100">
                 <div class="d-flex gap-2 align-items-center mb-2">
                   <a :href="`https://www.npmjs.com/package/${pkg.name}`">
