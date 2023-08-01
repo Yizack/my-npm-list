@@ -63,10 +63,16 @@ const filteredPackages = computed(() => {
 const updateList = async () => {
   const time = new Date().getTime();
   if (time - user.value.listUpdated < 1000 * 60 * 30 && !user.value.packages.length !== 0) {
-    return alert("You can only update your list once every 30 minutes. Please try again later.");
+    return alert("You can only update a user's list once every 30 minutes. Please try again later.");
   }
   isUpdating.value = true;
-  const repos = await $fetch("/api/github/repos").catch(() => ({ packages: [] }));
+  const repos = await $fetch("/api/github/repos", {
+    method: "POST",
+    body: {
+      ghUser: user.value.ghUser,
+      ghId: user.value.ghId
+    }
+  }).catch(() => ({ packages: [] }));
   user.value.packages = repos.packages;
   user.value.listUpdated = time;
   if (repos.packages.length) {
@@ -75,7 +81,7 @@ const updateList = async () => {
   }
   else {
     toast.value.success = false;
-    toast.value.message = "An error occurred while fetching your packages. Please try again later";
+    toast.value.message = "An error occurred while fetching the packages. Please try again later";
   }
   const { $bootstrap } = useNuxtApp();
   $bootstrap.showToast("#notification");
@@ -114,14 +120,14 @@ const updateList = async () => {
             <Icon class="flex-shrink-0" name="solar:box-bold" size="1.3em" />
             {{ user.packages.length }} packages used
           </div>
-          <div v-if="loggedIn && session.ghId === user.ghId" class="d-grid gap-2">
+          <div v-if="loggedIn" class="d-grid gap-2">
             <button v-if="isUpdating" class="btn btn-primary rounded-pill" disabled>
               <div class="spinner-border spinner-border-sm" role="status">
                 <span class="visually-hidden">Loading...</span>
               </div>
             </button>
             <button v-else class="btn btn-primary rounded-pill" @click="updateList()">Update List</button>
-            <NuxtLink class="btn btn-dark rounded-pill" to="/settings">Edit Profile</NuxtLink>
+            <NuxtLink v-if="session.ghId === user.ghId" class="btn btn-dark rounded-pill" to="/settings">Edit Profile</NuxtLink>
           </div>
         </div>
       </div>

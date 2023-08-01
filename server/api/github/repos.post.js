@@ -8,10 +8,10 @@ export default eventHandler(async (event) => {
       message: "Unauthorized"
     });
   }
-
+  const { ghUser, ghId } = await readBody(event);
   const config = useRuntimeConfig(event);
 
-  const ghRepos = await $fetch("https://api.github.com/user/repos", {
+  const ghRepos = await $fetch(`https://api.github.com/users/${ghUser}/repos`, {
     headers: {
       "User-Agent": `Github-OAuth-${config.github.clientId}`,
       Authorization: `Bearer ${ghTokens.access_token}`
@@ -31,10 +31,8 @@ export default eventHandler(async (event) => {
 
   if (ghRepos.length) {
     for (const { name, fork } of ghRepos) {
-      if (fork) {
-        continue;
-      }
-      const file = await $fetch(`https://api.github.com/repos/${user.ghUser}/${name}/contents/package.json`, {
+      if (fork) continue;
+      const file = await $fetch(`https://api.github.com/repos/${ghUser}/${name}/contents/package.json`, {
         headers: {
           "User-Agent": `Github-OAuth-${config.github.clientId}`,
           Authorization: `Bearer ${ghTokens.access_token}`,
@@ -74,16 +72,14 @@ export default eventHandler(async (event) => {
     }
   }
 
-  if (!list.length) {
-    return { packages: [] };
-  }
+  if (!list.length) return { packages: [] };
 
   const foundPackages = list.map(pkg => pkg.id);
 
-  await DB.delete(tables.lists).where(and(eq(tables.lists.ghId, user.ghId), notInArray(tables.lists.packageId, foundPackages))).returning().all();
+  await DB.delete(tables.lists).where(and(eq(tables.lists.ghId, ghId), notInArray(tables.lists.packageId, foundPackages))).returning().all();
 
   await DB.insert(tables.lists).values(list.map(pkg => ({
-    ghId: user.ghId,
+    ghId,
     packageId: pkg.id,
     versions: pkg.versions.join(",").replace(/\^/g, ""),
     count: pkg.count
@@ -97,7 +93,7 @@ export default eventHandler(async (event) => {
 
   await DB.update(tables.users).set({
     listUpdated: today
-  }).where(eq(tables.users.ghId, user.ghId)).run();
+  }).where(eq(tables.users.ghId, ghId)).run();
 
   const userPackages = await DB.select({
     id: tables.packages.id,
@@ -106,7 +102,6 @@ export default eventHandler(async (event) => {
     lastFetch: tables.packages.lastFetch,
     versions: tables.lists.versions,
     count: tables.lists.count
-  }).from(tables.lists).innerJoin(tables.packages, eq(tables.lists.packageId, tables.packages.id)).where(eq(tables.lists.ghId, user.ghId)).orderBy(desc(tables.lists.count)).all();
-
+  }).from(tables.lists).innerJoin(tables.packages, eq(tables.lists.packageId, tables.packages.id)).where(eq(tables.lists.ghId, ghId)).orderBy(desc(tables.lists.count)).all();
   return { packages: userPackages };
 });
