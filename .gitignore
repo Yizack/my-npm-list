@@ -5,3 +5,5 @@ dist
 package-lock.json
 .env
 server/db/db.sqlite
+*.sqlite3
+/*.sql
