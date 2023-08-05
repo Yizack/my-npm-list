@@ -14,7 +14,8 @@ export const normalize = (string) => {
 };
 
 export const getTimeAgo = (date) => {
-  const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+  const floor = Math.floor((new Date() - new Date(date)) / 1000);
+  const seconds = floor < 0 ? 0 : floor;
   let interval = Math.floor(seconds / 31536000);
   if (interval >= 1) {
     return `${interval} year${interval > 1 ? "s" : ""} ago`;
@@ -35,5 +36,5 @@ export const getTimeAgo = (date) => {
   if (interval >= 1) {
     return `${interval} minute${interval > 1 ? "s" : ""} ago`;
   }
-  return `${Math.floor(seconds)} second${seconds > 1 ? "s" : ""} ago`;
+  return `${Math.floor(seconds)} second${seconds > 1 || seconds === 0 ? "s" : ""} ago`;
 };
