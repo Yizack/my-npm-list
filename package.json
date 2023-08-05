@@ -18,7 +18,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "db:migration": "drizzle-kit generate:sqlite"
+    "db:migration": "drizzle-kit generate:sqlite",
+    "lint": "eslint --ext .ts,.js,.vue --fix --ignore-path .gitignore ."
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^0.1.1",

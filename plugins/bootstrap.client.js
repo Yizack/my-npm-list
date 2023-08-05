@@ -36,7 +36,7 @@ class Bootstrap {
       }
     });
   }
-};
+}
 
 const bootstrap = new Bootstrap();
 
