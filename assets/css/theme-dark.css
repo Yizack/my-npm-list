@@ -1,4 +1,4 @@
-:root, [data-bs-theme=dark] {
+:root, [data-bs-theme="dark"] {
   /** CSS DARK THEME PRIMARY COLORS */
   --color-primary-100: #6ea8fe;
   --color-primary-200: #82b1fe;
@@ -7,6 +7,7 @@
   --color-primary-500: #b5ceff;
   --color-primary-500-rgb: 181, 206, 255;
   --color-primary-600: #c4d7ff;
+
   /** CSS DARK THEME MIXED SURFACE COLORS */
   --color-surface-mixed-100: #20232a;
   --color-surface-mixed-100-rgb: 32, 35, 42;
@@ -18,10 +19,8 @@
   --color-surface-mixed-400: #62646a;
   --color-surface-mixed-500: #7a7c81;
   --color-surface-mixed-600: #939599;
-  
   --color-text: #e3e3e3;
   --color-text-rgb: 227, 227, 227;
-
   --bs-heading-color: #f9f9f9;
   --bs-primary: var(--color-primary-500);
   --bs-primary-rgb: var(--color-primary-500-rgb);

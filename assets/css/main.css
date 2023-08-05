@@ -45,12 +45,12 @@ a:hover {
 }
 
 .bg-primary {
-  color: var(--bs-body-bg)
+  color: var(--bs-body-bg);
 }
 
 .select-list {
   max-height: 300px;
-  overflow: auto
+  overflow: auto;
 }
 
 .select-list li {

@@ -26,7 +26,9 @@
     "better-sqlite3": "^8.5.0",
     "eslint": "^8.46.0",
     "nuxt": "^3.6.5",
-    "nuxt-icon": "^0.4.2"
+    "nuxt-icon": "^0.4.2",
+    "stylelint": "^15.10.2",
+    "stylelint-config-standard": "^34.0.0"
   },
   "dependencies": {
     "bootstrap": "^5.3.1",

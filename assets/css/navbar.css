@@ -6,6 +6,10 @@ nav.navbar * {
   font-weight: bold;
 }
 
+.navbar .dropdown-item, .navbar .nav-link {
+  text-decoration: none;
+}
+
 .navbar-nav .nav-item .nav-link {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -17,9 +21,6 @@ nav.navbar * {
   background-color: var(--bs-tertiary-bg);
 }
 
-.navbar .dropdown-item, .navbar .nav-link {
-  text-decoration: none;
-}
 
 .navbar .dropdown-item:hover, .navbar .nav-link:hover {
   color: var(--bs-primary-text-emphasis);
