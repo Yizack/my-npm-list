@@ -20,7 +20,7 @@ export default eventHandler(async (event) => {
       affiliation: "owner",
       visibility: "public",
       sort: "updated",
-      per_page: 2,
+      per_page: 100,
       page: 1
     }
   }).catch(() => []);
@@ -76,20 +76,28 @@ export default eventHandler(async (event) => {
 
   const foundPackages = list.map(pkg => pkg.id);
 
-  await DB.delete(tables.lists).where(and(eq(tables.lists.ghId, ghId), notInArray(tables.lists.packageId, foundPackages))).returning().all();
-
-  await DB.insert(tables.lists).values(list.map(pkg => ({
-    ghId,
-    packageId: pkg.id,
-    versions: pkg.versions.join(",").replace(/\^/g, ""),
-    count: pkg.count
-  }))).onConflictDoUpdate({
-    target: [tables.lists.ghId, tables.lists.packageId],
-    set: {
-      versions: sql`excluded.versions`,
-      count: sql`excluded.count`
-    }
-  }).returning().all();
+  if (process.dev) {
+    await DB.delete(tables.lists).where(and(eq(tables.lists.ghId, ghId), notInArray(tables.lists.packageId, foundPackages))).returning().all();
+    await DB.insert(tables.lists).values(list.map(pkg => ({
+      ghId,
+      packageId: pkg.id,
+      versions: pkg.versions.join(",").replace(/\^/g, ""),
+      count: pkg.count
+    }))).onConflictDoUpdate({
+      target: [tables.lists.ghId, tables.lists.packageId],
+      set: {
+        versions: sql`excluded.versions`,
+        count: sql`excluded.count`
+      }
+    }).returning().all();
+  }
+  else {
+    const delete_q = `delete from "lists" where ("lists"."gh_id" = ${ghId} and "lists"."package_id" not in (${foundPackages.join(",")}))`;
+    event.context.cloudflare.env.DB.prepare(delete_q).run();
+    const values = list.map(pkg => `(${ghId}, ${pkg.id}, '${pkg.versions.join(",").replace(/\^/g, "")}', ${pkg.count})`);
+    const insert_q = `insert into "lists" ("id", "gh_id", "package_id", "versions", "count") values ${values.join(",")} on conflict ("lists"."gh_id", "lists"."package_id") do update set "versions" = excluded.versions, "count" = excluded.count`;
+    event.context.cloudflare.env.DB.prepare(insert_q).run();
+  }
 
   await DB.update(tables.users).set({
     listUpdated: today
