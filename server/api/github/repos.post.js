@@ -20,7 +20,7 @@ export default eventHandler(async (event) => {
       affiliation: "owner",
       visibility: "public",
       sort: "updated",
-      per_page: 100,
+      per_page: 2,
       page: 1
     }
   }).catch(() => []);

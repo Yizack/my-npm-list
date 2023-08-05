@@ -62,7 +62,7 @@ const filteredPackages = computed(() => {
 
 const updateList = async () => {
   const time = new Date().getTime();
-  if (time - user.value.listUpdated < 1000 * 60 * 30 && !user.value.packages.length !== 0) {
+  if (time - user.value.listUpdated < 1000 * 60 * 0 && !user.value.packages.length !== 0) {
     return alert("You can only update a user's list once every 30 minutes. Please try again later.");
   }
   isUpdating.value = true;
