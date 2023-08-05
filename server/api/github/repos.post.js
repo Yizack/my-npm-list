@@ -95,7 +95,7 @@ export default eventHandler(async (event) => {
     const delete_q = `delete from "lists" where ("lists"."gh_id" = ${ghId} and "lists"."package_id" not in (${foundPackages.join(",")}))`;
     await event.context.cloudflare.env.DB.prepare(delete_q).run();
     const values = list.map(pkg => `(${ghId}, ${pkg.id}, '${pkg.versions.join(",").replace(/\^/g, "")}', ${pkg.count})`);
-    const insert_q = `insert into "lists" ("id", "gh_id", "package_id", "versions", "count") values ${values.join(",")} on conflict ("lists"."gh_id", "lists"."package_id") do update set "versions" = excluded.versions, "count" = excluded.count`;
+    const insert_q = `insert into "lists" ("gh_id", "package_id", "versions", "count") values ${values.join(",")} on conflict ("lists"."gh_id", "lists"."package_id") do update set "versions" = excluded.versions, "count" = excluded.count`;
     await event.context.cloudflare.env.DB.prepare(insert_q).run();
   }
 
