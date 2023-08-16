@@ -96,25 +96,28 @@ useHead({
           <div class="col-12">
             <div class="bg-body-tertiary rounded-3 p-3 p-lg-4">
               <h2>Popular packages</h2>
-              <p>Top 5 packages by number of users</p>
-              <div v-for="pkg of start.packages_users" :key="pkg.name">
-                <div class="d-flex gap-2 align-items-center">
-                  <Icon class="flex-shrink-0" name="solar:box-bold" size="1.3em" />
-                  <NuxtLink :to="`/package/${pkg.name}`" class="d-flex align-items-center">
-                    <span class="text-break"><strong>{{ pkg.name }}</strong></span>
-                  </NuxtLink>
-                  <span class="flex-shrink-0 text-muted">{{ pkg.count }} {{ pkg.count > 1 ? 'users' : 'user' }}</span>
+              <div v-if="start.packages_users.length" class="mb-3">
+                <p>Top 5 packages by number of users</p>
+                <div v-for="pkg of start.packages_users" :key="pkg.name">
+                  <div class="d-flex gap-2 align-items-center">
+                    <Icon class="flex-shrink-0" name="solar:box-bold" size="1.3em" />
+                    <NuxtLink :to="`/package/${pkg.name}`" class="d-flex align-items-center">
+                      <span class="text-break"><strong>{{ pkg.name }}</strong></span>
+                    </NuxtLink>
+                    <span class="flex-shrink-0 text-muted">{{ pkg.count }} {{ pkg.count > 1 ? 'users' : 'user' }}</span>
+                  </div>
                 </div>
               </div>
-              <hr>
-              <p>Top 5 packages by times used</p>
-              <div v-for="pkg of start.packages_used" :key="pkg.name">
-                <div class="d-flex gap-2 align-items-center">
-                  <Icon class="flex-shrink-0" name="solar:box-bold" size="1.3em" />
-                  <NuxtLink :to="`/package/${pkg.name}`" class="d-flex align-items-center">
-                    <span class="text-break"><strong>{{ pkg.name }}</strong></span>
-                  </NuxtLink>
-                  <span class="flex-shrink-0 text-muted">used {{ pkg.count }} {{ pkg.count > 1 ? 'times' : 'time' }}</span>
+              <div v-if="start.packages_used.length" class="border-top pt-3">
+                <p>Top 5 packages by times used</p>
+                <div v-for="pkg of start.packages_used" :key="pkg.name">
+                  <div class="d-flex gap-2 align-items-center">
+                    <Icon class="flex-shrink-0" name="solar:box-bold" size="1.3em" />
+                    <NuxtLink :to="`/package/${pkg.name}`" class="d-flex align-items-center">
+                      <span class="text-break"><strong>{{ pkg.name }}</strong></span>
+                    </NuxtLink>
+                    <span class="flex-shrink-0 text-muted">used {{ pkg.count }} {{ pkg.count > 1 ? 'times' : 'time' }}</span>
+                  </div>
                 </div>
               </div>
             </div>
