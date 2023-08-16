@@ -36,5 +36,8 @@ export default defineNuxtConfig({
       clientId: "",
       clientSecret: ""
     }
+  },
+  experimental: {
+    inlineSSRStyles: false
   }
 });
