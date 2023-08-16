@@ -42,6 +42,13 @@ export default defineEventHandler(async () => {
     }
   }).from([packages, users, lists, mp, mc, mu]).get();
 
+  if (!counters) {
+    return createError({
+      statusCode: 500,
+      StatusMessage: "Could not fetch counters"
+    });
+  }
+
   return [
     {
       value: counters.packages,
