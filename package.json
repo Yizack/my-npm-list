@@ -22,19 +22,19 @@
     "lint": "eslint --ext .ts,.js,.vue --fix --ignore-path .gitignore ."
   },
   "devDependencies": {
-    "@nuxt/eslint-config": "^0.1.1",
-    "better-sqlite3": "^8.5.1",
+    "@nuxt/eslint-config": "^0.2.0",
+    "better-sqlite3": "^8.6.0",
     "drizzle-kit": "^0.19.13",
-    "drizzle-orm": "^0.28.2",
-    "eslint": "^8.47.0",
-    "nuxt": "^3.6.5",
+    "drizzle-orm": "^0.28.6",
+    "eslint": "^8.49.0",
+    "nuxt": "^3.7.3",
     "nuxt-icon": "^0.5.0",
     "nuxt-twemoji": "^3.3.3",
     "stylelint": "^15.10.3",
     "stylelint-config-standard": "^34.0.0"
   },
   "dependencies": {
-    "bootstrap": "^5.3.1",
-    "chart.js": "^4.3.3"
+    "bootstrap": "^5.3.2",
+    "chart.js": "^4.4.0"
   }
 }
