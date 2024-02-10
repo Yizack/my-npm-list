@@ -37,7 +37,7 @@ export default defineNuxtConfig({
       clientSecret: ""
     }
   },
-  experimental: {
-    inlineSSRStyles: false
+  features: {
+    inlineSyles: false
   }
 });
