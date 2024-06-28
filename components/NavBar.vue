@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const { loggedIn, user, clear } = useUserSession();
 </script>
 
@@ -36,7 +36,7 @@ const { loggedIn, user, clear } = useUserSession();
           </ul>
         </div>
         <div v-else class="nav-item">
-          <a class="btn btn-light rounded-pill d-flex align-items-center gap-2 text-decoration-none" href="/api/github/auth">
+          <a class="btn btn-light rounded-pill d-flex align-items-center gap-2 text-decoration-none" href="/auth/github">
             <Icon name="bi:github" size="1.3em" />
             <span>Login <span class="d-none d-md-inline">with GitHub</span></span>
           </a>
@@ -46,7 +46,7 @@ const { loggedIn, user, clear } = useUserSession();
   </nav>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   data () {
     return {

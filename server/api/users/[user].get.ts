@@ -4,20 +4,20 @@ export default defineEventHandler(async (event) => {
   const { user } = getRouterParams(event);
   const { props } = getQuery(event);
   const DB = useDb();
-  let userSelect = DB.select();
 
+  type KeyOfTablesUsers = keyof typeof tables.users;
+
+  const columns = {} as Record<KeyOfTablesUsers, any>;
   if (props) {
-    const propsArray = props.split(",");
-    const columns = {};
+    const propsArray = props.toString().split(",") as KeyOfTablesUsers[];
     propsArray.forEach((prop) => {
       if (tables.users[prop]) {
         columns[prop] = tables.users[prop];
       }
     });
-    userSelect = DB.select(columns);
   }
 
-  const userData = await userSelect.from(tables.users).where(sql`lower(${tables.users.ghUser}) like lower(${user})`).get();
+  const userData = await DB.select(columns).from(tables.users).where(sql`lower(${tables.users.ghUser}) like lower(${user})`).get();
 
   if (!userData) {
     return { packages: [] };

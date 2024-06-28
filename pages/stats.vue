@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const { data: counters } = useFetch("/api/stats");
 
 const description = "Statistics about the packages used by registered users.";

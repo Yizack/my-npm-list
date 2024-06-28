@@ -4,6 +4,9 @@ export default defineEventHandler(async (event) => {
   const { name } = getRouterParams(event);
   const DB = useDb();
   const pkg = await DB.select().from(tables.packages).where(eq(tables.packages.name, name)).get();
+
+  if (!pkg) throw createError({ statusCode: 404, message: "Package not found" });
+
   const users = await DB.select({
     ghId: tables.users.ghId,
     ghUser: tables.users.ghUser,
@@ -11,7 +14,11 @@ export default defineEventHandler(async (event) => {
     count: tables.lists.count
   }).from(tables.lists).innerJoin(tables.users, eq(tables.lists.ghId, tables.users.ghId)).where(eq(tables.lists.packageId, pkg.id)).orderBy(desc(tables.lists.count)).all();
 
-  const { description, homepage, keywords } = await $fetch(`https://registry.npmjs.org/${name}`).catch(() => ({}));
-  const npm = { description, homepage, keywords };
-  return { ...pkg, users, npm };
+  const npm = await $fetch<NPMPackage>(`https://registry.npmjs.org/${name}`).catch(() => null);
+
+  return {
+    ...pkg,
+    users,
+    npm: npm ? { description: npm.description, homepage: npm.homepage, keywords: npm.keywords } : {}
+  };
 });

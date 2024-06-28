@@ -47,16 +47,16 @@ const filteredPackages = computed(() => {
   const packages = user.value.packages.filter(pkg => pkg.name.toLowerCase().includes(search.value.toLowerCase()));
   // sort by count
   switch (filter.value) {
-  case 1:
-    return packages.sort((a, b) => desc.value ? b.count - a.count : a.count - b.count);
-  // sort by name
-  case 2:
-    return packages.sort((a, b) => desc.value ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name));
-  // sort by versions length
-  case 3:
-    return packages.sort((a, b) => desc.value ? b.versions.split(",").length - a.versions.split(",").length : a.versions.split(",").length - b.versions.split(",").length);
-  default:
-    return packages;
+    case 1:
+      return packages.sort((a, b) => desc.value ? b.count - a.count : a.count - b.count);
+      // sort by name
+    case 2:
+      return packages.sort((a, b) => desc.value ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name));
+      // sort by versions length
+    case 3:
+      return packages.sort((a, b) => desc.value ? b.versions.split(",").length - a.versions.split(",").length : a.versions.split(",").length - b.versions.split(",").length);
+    default:
+      return packages;
   }
 });
 
@@ -151,7 +151,7 @@ const updateList = async () => {
                   <option :value="2">Alphabetical</option>
                   <option :value="3">Versions</option>
                 </select>
-                <button class="btn btn-primary" :style="{ width:'3rem' }" @click="desc = !desc">
+                <button class="btn btn-primary" :style="{ width: '3rem' }" @click="desc = !desc">
                   <Transition name="tab" mode="out-in">
                     <Icon v-if="desc" name="solar:list-arrow-down-minimalistic-linear" size="1.2rem" />
                     <Icon v-else name="solar:list-arrow-up-minimalistic-linear" size="1.2rem" />

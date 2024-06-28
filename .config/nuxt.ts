@@ -24,20 +24,30 @@ export default defineNuxtConfig({
     "~/assets/css/buttons.css"
   ],
   modules: [
+    "@nuxt/eslint",
     "nuxt-icon",
-    "nuxt-twemoji"
+    "nuxt-twemoji",
+    "nuxt-auth-utils"
   ],
+  eslint: {
+    config: {
+      autoInit: false,
+      stylistic: true
+    }
+  },
   runtimeConfig: {
     session: {
       name: "nuxt-session",
       password: ""
     },
-    github: {
-      clientId: "",
-      clientSecret: ""
+    oauth: {
+      github: {
+        clientId: "",
+        clientSecret: ""
+      }
     }
   },
   features: {
-    inlineSyles: false
+    inlineStyles: false
   }
 });

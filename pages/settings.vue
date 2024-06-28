@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { countries } from "~/utils/countries";
 
 definePageMeta({ middleware: "session" });
@@ -88,7 +88,7 @@ definePageMeta({ middleware: "session" });
   </section>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   data () {
     return {

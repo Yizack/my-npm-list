@@ -11,10 +11,10 @@ export default eventHandler(async (event) => {
   const { ghUser, ghId } = await readBody(event);
   const config = useRuntimeConfig(event);
 
-  const ghRepos = await $fetch(`https://api.github.com/users/${ghUser}/repos`, {
+  const ghRepos = await $fetch<{ name: string, fork: boolean }[]>(`https://api.github.com/users/${ghUser}/repos`, {
     headers: {
-      "User-Agent": `Github-OAuth-${config.github.clientId}`,
-      Authorization: `Bearer ${ghTokens.access_token}`
+      "User-Agent": `Github-OAuth-${config.oauth.github.clientId}`,
+      "Authorization": `Bearer ${ghTokens.access_token}`
     },
     query: {
       affiliation: "owner",
@@ -25,21 +25,27 @@ export default eventHandler(async (event) => {
     }
   }).catch(() => []);
 
-  const list = [];
+  const list = [] as {
+    id: number;
+    name: string;
+    versions: unknown[];
+    count: number;
+  }[];
   const today = new Date().getTime();
   const DB = useDb();
 
   if (ghRepos.length) {
     for (const { name, fork } of ghRepos) {
       if (fork) continue;
-      const file = await $fetch(`https://api.github.com/repos/${ghUser}/${name}/contents/package.json`, {
+      const file = await $fetch<{ content: string, encoding: BufferEncoding }>(`https://api.github.com/repos/${ghUser}/${name}/contents/package.json`, {
         headers: {
-          "User-Agent": `Github-OAuth-${config.github.clientId}`,
-          Authorization: `Bearer ${ghTokens.access_token}`,
-          Accept: "application/vnd.github+json"
+          "User-Agent": `Github-OAuth-${config.oauth.github.clientId}`,
+          "Authorization": `Bearer ${ghTokens.access_token}`,
+          "Accept": "application/vnd.github+json"
         }
-      }).catch(() => ({}));
-      if (!file.content) {
+      }).catch(() => null);
+
+      if (!file || !file.content) {
         console.info("No package.json found in", name);
         continue;
       }
@@ -76,7 +82,7 @@ export default eventHandler(async (event) => {
 
   const foundPackages = list.map(pkg => pkg.id);
 
-  if (process.dev) {
+  if (import.meta.dev) {
     await DB.delete(tables.lists).where(and(eq(tables.lists.ghId, ghId), notInArray(tables.lists.packageId, foundPackages))).returning().all();
     await DB.insert(tables.lists).values(list.map(pkg => ({
       ghId,

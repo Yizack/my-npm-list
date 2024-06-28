@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const { params } = useRoute();
 const packageName = params.name.join("/");
 const { data: pkg } = await useFetch(`/api/packages/stats/${packageName}`);
@@ -82,7 +82,7 @@ useHead({
   </main>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   mounted () {
     this.$nuxt.$bootstrap.initPopover();

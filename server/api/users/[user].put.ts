@@ -4,11 +4,8 @@ export default defineEventHandler(async (event) => {
   const params = getRouterParams(event);
   const { user, ghTokens } = await requireUserSession(event);
 
-  if (!user && !params && params.user !== user.ghUser) {
-    throw createError({
-      status: 401,
-      message: "Unauthorized"
-    });
+  if (!user || !params || params.user !== user.ghUser) {
+    throw createError({ statusCode: 401, message: "Unauthorized" });
   }
 
   const body = await readBody(event);

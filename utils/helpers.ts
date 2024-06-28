@@ -1,4 +1,4 @@
-export const formatDate = (date, time = undefined) => {
+export const formatDate = (date: string | number, time = undefined) => {
   return new Date(date).toLocaleDateString(undefined, {
     year: "numeric",
     month: "short",
@@ -9,12 +9,12 @@ export const formatDate = (date, time = undefined) => {
   });
 };
 
-export const normalize = (string) => {
+export const normalize = (string: string) => {
   return string.normalize("NFD").replace(/[\u0300-\u036F]/g, "");
 };
 
-export const getTimeAgo = (date) => {
-  const floor = Math.floor((new Date() - new Date(date)) / 1000);
+export const getTimeAgo = (date: string | number) => {
+  const floor = Math.floor((new Date().getTime() - new Date(date).getTime()) / 1000);
   const seconds = floor < 0 ? 0 : floor;
   let interval = Math.floor(seconds / 31536000);
   if (interval >= 1) {
