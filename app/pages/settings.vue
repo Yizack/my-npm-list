@@ -1,7 +1,63 @@
 <script setup lang="ts">
-import { countries } from "~/utils/countries";
-
 definePageMeta({ middleware: "session" });
+
+const { user } = useUserSession();
+const saving = ref(false);
+const toast = ref({ message: "", success: false });
+const countryForm = ref({ search: "", code: "", searching: false, focus: false });
+const countriesFilter = computed(() => {
+  return countries.getAll().filter((c) => {
+    const normalized_input = normalize(countryForm.value.search.toLocaleLowerCase());
+    const normalized_name = normalize(c.name.toLocaleLowerCase());
+    const wordsMatch = normalized_input.split(" ").map(char => normalized_name.includes(char)).every(Boolean);
+    if (wordsMatch) {
+      return c;
+    }
+    return false;
+  });
+});
+
+const removeCountry = () => {
+  countryForm.value.focus = false;
+  countryForm.value.search = "";
+  countryForm.value.code = "";
+  if (!user.value) return;
+  user.value.country = null;
+};
+
+const selectCountry = (country: { name: string, code: string }) => {
+  countryForm.value.focus = false;
+  countryForm.value.search = country.name;
+  countryForm.value.code = country.code;
+  if (!user.value) return;
+  user.value.country = country.code;
+};
+
+const saveProfile = async () => {
+  if (!user.value) return;
+  saving.value = true;
+  const req = await $fetch(`/api/users/${user.value.ghUser}`, {
+    method: "PUT",
+    body: user.value
+  }).catch(() => null);
+  if (req && req.ghId) {
+    const { $bootstrap } = useNuxtApp();
+    $bootstrap.showToast("#notification");
+    toast.value.success = true;
+    toast.value.message = "Profile saved successfully";
+  }
+  else {
+    toast.value.success = false;
+    toast.value.message = "An error occurred while saving your profile";
+  }
+  saving.value = false;
+};
+
+onMounted(() => {
+  if (!user.value || !user.value.country) return;
+  countryForm.value.search = countries.getName(user.value.country);
+  countryForm.value.code = user.value.country ? user.value.country : "";
+});
 </script>
 
 <template>
@@ -26,16 +82,16 @@ definePageMeta({ middleware: "session" });
             <div class="position-relative">
               <div class="input-group">
                 <span class="input-group-text">
-                  <Twemoji v-if="country.code" :emoji="countries.getEmoji(user.country)" size="2rem" />
+                  <Twemoji v-if="countryForm.code" :emoji="countries.getEmoji(user.country)" size="2rem" />
                   <Icon v-else name="solar:magnifer-linear" size="1.5em" />
                 </span>
                 <div class="form-floating position-relative">
-                  <input v-model="country.search" type="text" class="form-control" placeholder="Country" @focus="country.focus = true;">
+                  <input v-model="countryForm.search" type="text" class="form-control" placeholder="Country" @focus="countryForm.focus = true;">
                   <label>Country</label>
-                  <button v-if="country.focus" type="button" class="btn btn-danger position-absolute end-0 top-50 translate-middle-y me-2" @click="removeCountry()"><Icon name="solar:trash-bin-minimalistic-linear" size="1.3rem" /></button>
+                  <button v-if="countryForm.focus" type="button" class="btn btn-danger position-absolute end-0 top-50 translate-middle-y me-2" @click="removeCountry()"><Icon name="solar:trash-bin-minimalistic-linear" size="1.3rem" /></button>
                 </div>
               </div>
-              <div v-if="country.focus" class="position-relative z-3 mt-2">
+              <div v-if="countryForm.focus" class="position-relative z-3 mt-2">
                 <ul class="select-list position-absolute rounded border bg-body py-2 px-0 shadow w-100 m-0">
                   <li v-for="countryOption of countriesFilter" :key="countryOption.code" role="button" class="py-2 px-3" @click="selectCountry(countryOption)">
                     <Twemoji :emoji="countryOption.emoji" class="me-2" size="2rem" png />
@@ -67,7 +123,7 @@ definePageMeta({ middleware: "session" });
                   <Icon name="solar:earth-bold" size="1.5em" />
                 </span>
                 <div class="form-floating flex-fill">
-                  <input v-model="user.website" type="url" class="form-control" placeholder="Website">
+                  <input v-model.trim="user.website" type="url" class="form-control" placeholder="Website">
                   <label>Website</label>
                 </div>
               </div>
@@ -87,72 +143,3 @@ definePageMeta({ middleware: "session" });
     <NotificationToast :user="user" :text="toast.message" :success="toast.success" />
   </section>
 </template>
-
-<script lang="ts">
-export default {
-  data () {
-    return {
-      user: useUserSession().user,
-      saving: false,
-      toast: {
-        message: "",
-        success: false
-      },
-      country: {
-        search: "",
-        code: null,
-        searching: false,
-        focus: false
-      }
-    };
-  },
-  computed: {
-    countriesFilter () {
-      return countries.getAll().filter((country) => {
-        const normalized_input = normalize(this.country.search.toLocaleLowerCase());
-        const normalized_name = normalize(country.name.toLocaleLowerCase());
-        const wordsMatch = normalized_input.split(" ").map(char => normalized_name.includes(char)).every(Boolean);
-        if (wordsMatch) {
-          return country;
-        }
-        return false;
-      });
-    }
-  },
-  created () {
-    this.country.search = countries.getName(this.user.country);
-    this.country.code = this.user.country;
-  },
-  methods: {
-    removeCountry () {
-      this.country.focus = false;
-      this.country.search = "";
-      this.country.code = null;
-      this.user.country = null;
-    },
-    selectCountry (country) {
-      this.country.focus = false;
-      this.country.search = country.name;
-      this.country.code = country.code;
-      this.user.country = country.code;
-    },
-    async saveProfile () {
-      this.saving = true;
-      const req = await $fetch(`/api/users/${this.user.ghUser}`, {
-        method: "PUT",
-        body: this.user
-      }).catch(() => ({}));
-      if (req.ghId) {
-        this.$nuxt.$bootstrap.showToast("#notification");
-        this.toast.success = true;
-        this.toast.message = "Profile saved successfully";
-      }
-      else {
-        this.toast.success = false;
-        this.toast.message = "An error occurred while saving your profile";
-      }
-      this.saving = false;
-    }
-  }
-};
-</script>

@@ -11,12 +11,13 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const DB = useDb();
 
-  await setUserSession(event, { user: body, ghTokens });
-
-  return await DB.update(tables.users).set({
+  const update = await DB.update(tables.users).set({
     name: body.name,
-    bio: body.bio,
-    country: body.country,
-    website: body.website
+    bio: body.bio ? body.bio : null,
+    country: body.country ? body.country : null,
+    website: body.website ? body.website : null
   }).where(and(eq(tables.users.ghId, user.ghId), sql`lower(${tables.users.ghUser}) like lower(${user.ghUser})`)).returning().get();
+
+  await setUserSessionNullable(event, { user: update, ghTokens });
+  return update;
 });

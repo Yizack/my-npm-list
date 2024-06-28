@@ -17,7 +17,8 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const userData = await DB.select(columns).from(tables.users).where(sql`lower(${tables.users.ghUser}) like lower(${user})`).get();
+  const selector = props ? DB.select(columns) : DB.select();
+  const userData = await selector.from(tables.users).where(sql`lower(${tables.users.ghUser}) like lower(${user})`).get();
 
   if (!userData) {
     return { packages: [] };
@@ -31,5 +32,6 @@ export default defineEventHandler(async (event) => {
     versions: tables.lists.versions,
     count: tables.lists.count
   }).from(tables.lists).innerJoin(tables.packages, eq(tables.lists.packageId, tables.packages.id)).where(eq(tables.lists.ghId, userData.ghId)).orderBy(desc(tables.lists.count)).all();
+
   return { ...userData, packages: userPackages };
 });

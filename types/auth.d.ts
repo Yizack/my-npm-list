@@ -1,7 +1,13 @@
 declare module "#auth-utils" {
   interface User {
-    ghUser: string;
+    name: string;
     ghId: number;
+    ghUser: string;
+    bio: string | null;
+    website: string | null;
+    country: string | null;
+    joined: number | null;
+    listUpdated: number | null;
   }
   interface UserSession {
     user: User;
