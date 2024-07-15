@@ -22,25 +22,27 @@
     "lint": "pnpm lint:eslint --fix && pnpm lint:stylelint --fix",
     "lint:eslint": "eslint --config .config/eslint.mjs",
     "lint:stylelint": "stylelint \"**/*.{css,scss,sass}\" --config .config/stylelint.json",
-    "lint:eslint:inspect": "npx @eslint/config-inspector --config .config/eslint.mjs"
+    "lint:eslint:inspect": "npx @eslint/config-inspector --config .config/eslint.mjs",
+    "test:types": "vue-tsc --noEmit"
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.3.13",
     "@types/bootstrap": "^5.2.10",
-    "better-sqlite3": "^11.1.1",
-    "drizzle-kit": "^0.22.7",
-    "drizzle-orm": "^0.31.2",
-    "eslint": "^9.5.0",
-    "nuxt": "^3.12.2",
-    "nuxt-auth-utils": "^0.1.0",
+    "better-sqlite3": "^11.1.2",
+    "drizzle-kit": "^0.23.0",
+    "drizzle-orm": "^0.31.4",
+    "eslint": "^9.7.0",
+    "nuxt": "^3.12.3",
+    "nuxt-auth-utils": "^0.2.0",
     "nuxt-icon": "^0.6.10",
-    "nuxt-twemoji": "^3.5.2",
-    "stylelint": "^16.6.1",
-    "stylelint-config-standard": "^36.0.1"
+    "nuxt-twemoji": "^3.6.0",
+    "stylelint": "^16.7.0",
+    "stylelint-config-standard": "^36.0.1",
+    "vue-tsc": "^2.0.26"
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3"
   },
-  "packageManager": "pnpm@9.4.0"
+  "packageManager": "pnpm@9.5.0"
 }
