@@ -1,6 +1,6 @@
 import { eq, desc, and, notInArray, sql } from "drizzle-orm";
 
-export default eventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
   const { user, ghTokens } = await requireUserSession(event);
   if (!user) {
     throw createError({

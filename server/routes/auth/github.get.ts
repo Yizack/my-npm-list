@@ -1,4 +1,4 @@
-export default oauth.githubEventHandler({
+export default defineOAuthGitHubEventHandler({
   config: {
     scope: ["read:user"]
   },

@@ -26,10 +26,14 @@ export default defineNuxtConfig({
   ],
   modules: [
     "@nuxt/eslint",
-    "nuxt-icon",
+    "@nuxt/icon",
     "nuxt-twemoji",
     "nuxt-auth-utils"
   ],
+  icon: {
+    mode: "svg",
+    clientBundle: { scan: true, sizeLimitKb: 2048 }
+  },
   eslint: {
     config: {
       autoInit: false,
