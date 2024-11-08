@@ -1,6 +1,6 @@
 import { sql, desc, eq, count, max } from "drizzle-orm";
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (): Promise<SiteStats[]> => {
   const DB = useDb();
 
   const packages = DB.select({ count: count().as("count") }).from(tables.packages).as("p");
@@ -24,24 +24,24 @@ export default defineEventHandler(async () => {
 
   const counters = await DB.select({
     packages: packages.count,
-    users: sql`${users}`,
-    lists: sql`${lists}`,
+    users: sql<number>`${users}`,
+    lists: sql<number>`${lists}`,
     mostPackagesUser: {
-      ref: sql`(SELECT gh_user FROM (${mostPackagesUser}))`,
-      count: sql`(SELECT count FROM (${mostPackagesUser}))`
+      ref: sql<number>`(SELECT gh_user FROM (${mostPackagesUser}))`,
+      count: sql<number>`(SELECT count FROM (${mostPackagesUser}))`
     },
     maxPackageUser: {
-      ref: sql`(SELECT name FROM (${maxPackageUser}))`,
-      count: sql`(SELECT count FROM (${maxPackageUser}))`
+      ref: sql<number>`(SELECT name FROM (${maxPackageUser}))`,
+      count: sql<number>`(SELECT count FROM (${maxPackageUser}))`
     },
     mostUsedPackage: {
-      ref: sql`(SELECT name FROM (${mostUsedPackage}))`,
-      count: sql`(SELECT count FROM (${mostUsedPackage}))`
+      ref: sql<number>`(SELECT name FROM (${mostUsedPackage}))`,
+      count: sql<number>`(SELECT count FROM (${mostUsedPackage}))`
     }
   }).from(packages).get();
 
   if (!counters) {
-    return createError({
+    throw createError({
       statusCode: 500,
       message: "Could not fetch counters"
     });

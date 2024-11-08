@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const { params } = useRoute();
-const packageName = params.name.join("/");
+const { params } = useRoute("package-name");
+const packageName = params.name?.join("/");
 const { data: pkg } = await useFetch(`/api/packages/stats/${packageName}`);
 
 if (!pkg.value) {

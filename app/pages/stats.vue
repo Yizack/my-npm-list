@@ -1,6 +1,7 @@
 <script setup lang="ts">
-const { data: counters } = useFetch("/api/stats");
-
+const { data: counters } = useFetch("/api/stats", {
+  getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key]
+});
 const description = "Statistics about the packages used by registered users.";
 
 useSeoMeta({
@@ -29,7 +30,7 @@ useHead({
 
 <template>
   <main>
-    <div class="row g-2">
+    <div v-if="counters" class="row g-2">
       <div v-for="(counter, i) of counters" :key="i" class="col-lg-3 col-md-4 col-sm-6">
         <div class="bg-body-tertiary rounded-3 p-3 p-lg-4 h-100 d-flex position-relative">
           <div class="text-center m-auto">
@@ -41,6 +42,17 @@ useHead({
           </div>
           <div class="position-absolute top-0 end-0 my-3 mx-3">
             <span v-if="counter.ref" class="bg-primary rounded-pill px-2 py-1 fw-bold">{{ counter.type }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else class="row g-2">
+      <div v-for="n of 6" :key="n" class="col-lg-3 col-md-4 col-sm-6">
+        <div class="bg-body-tertiary rounded-3 p-3 p-lg-4 h-100">
+          <div class="text-center m-auto">
+            <h1 class=" placeholder-glow"><strong class="placeholder col-2" /></h1>
+            <h4><span class="placeholder col-4" /></h4>
+            <h5 class="text-muted m-0"><span class="placeholder col-9" /></h5>
           </div>
         </div>
       </div>

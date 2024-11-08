@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const { data: start } = await useFetch("/api/start");
+const { data: start } = useFetch("/api/start", {
+  getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key]
+});
 
 useSeoMeta({
   title: SITE.name,
@@ -79,16 +81,25 @@ useHead({
           <div class="col-12">
             <div class="bg-body-tertiary rounded-3 p-3 p-lg-4">
               <h2>Recently joined users</h2>
-              <div class="d-flex flex-column gap-2">
+              <div v-if="start" class="d-flex flex-column gap-2">
                 <div v-for="user of start.users" :key="user.ghId">
                   <div class="d-flex gap-2 align-items-center">
-                    <NuxtLink :to="`/user/${user.ghUser}`" class="d-flex align-items-center">
-                      <img :src="`https://avatars.githubusercontent.com/u/${user.ghId}?v=4&s=24`" alt="avatar" class="rounded-circle me-2" width="24" height="24">
+                    <NuxtLink :to="`/user/${user.ghUser}`" class="d-flex align-items-center gap-2">
+                      <img :src="`https://avatars.githubusercontent.com/u/${user.ghId}?v=4&s=24`" alt="avatar" class="rounded-circle" width="24" height="24">
                       <span class="text-break"><strong>{{ user.ghUser }}</strong></span>
                     </NuxtLink>
                     <Icon class="flex-shrink-0 text-primary-emphasis" name="solar:clock-circle-linear" />
-                    <span class="flex-fill flex-shrink-0 text-muted">{{ getTimeAgo(user.joined) }}</span>
+                    <span class="flex-fill flex-shrink-0 text-muted">{{ getTimeAgo(user.joined!) }}</span>
                   </div>
+                </div>
+              </div>
+              <div v-else class="d-flex flex-column gap-2 placeholder-glow">
+                <div v-for="n of 4" :key="n" class="placeholder-glow d-flex gap-2 align-items-center">
+                  <a class="d-flex align-items-center gap-2">
+                    <span class="placeholder col-2 rounded-circle" style="height: 24px; width: 24px;" />
+                    <span class="placeholder" style="width: 100px;" />
+                  </a>
+                  <span class="placeholder col-3" />
                 </div>
               </div>
             </div>
@@ -96,28 +107,36 @@ useHead({
           <div class="col-12">
             <div class="bg-body-tertiary rounded-3 p-3 p-lg-4">
               <h2>Popular packages</h2>
-              <div v-if="start.packages_users.length" class="mb-3">
-                <p>Top 5 packages by number of users</p>
-                <div v-for="pkg of start.packages_users" :key="pkg.name">
-                  <div class="d-flex gap-2 align-items-center">
-                    <Icon class="flex-shrink-0" name="solar:box-bold" size="1.3em" />
-                    <NuxtLink :to="`/package/${pkg.name}`" class="d-flex align-items-center">
-                      <span class="text-break"><strong>{{ pkg.name }}</strong></span>
-                    </NuxtLink>
-                    <span class="flex-shrink-0 text-muted">{{ pkg.count }} {{ pkg.count > 1 ? 'users' : 'user' }}</span>
+              <div v-if="start">
+                <div v-if="start.packages_users.length" class="mb-3">
+                  <p>Top 5 packages by number of users</p>
+                  <div v-for="pkg of start.packages_users" :key="pkg.name">
+                    <div class="d-flex gap-2 align-items-center">
+                      <Icon class="flex-shrink-0" name="solar:box-bold" size="1.3em" />
+                      <NuxtLink :to="`/package/${pkg.name}`" class="d-flex align-items-center">
+                        <span class="text-break"><strong>{{ pkg.name }}</strong></span>
+                      </NuxtLink>
+                      <span class="flex-shrink-0 text-muted">{{ pkg.count }} {{ pkg.count > 1 ? 'users' : 'user' }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div v-if="start.packages_used.length" class="border-top pt-3">
+                  <p>Top 5 packages by times used</p>
+                  <div v-for="pkg of start.packages_used" :key="pkg.name">
+                    <div class="d-flex gap-2 align-items-center">
+                      <Icon class="flex-shrink-0" name="solar:box-bold" size="1.3em" />
+                      <NuxtLink :to="`/package/${pkg.name}`" class="d-flex align-items-center">
+                        <span class="text-break"><strong>{{ pkg.name }}</strong></span>
+                      </NuxtLink>
+                      <span v-if="pkg.count" class="flex-shrink-0 text-muted">used {{ pkg.count }} {{ Number(pkg.count) > 1 ? 'times' : 'time' }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div v-if="start.packages_used.length" class="border-top pt-3">
-                <p>Top 5 packages by times used</p>
-                <div v-for="pkg of start.packages_used" :key="pkg.name">
-                  <div class="d-flex gap-2 align-items-center">
-                    <Icon class="flex-shrink-0" name="solar:box-bold" size="1.3em" />
-                    <NuxtLink :to="`/package/${pkg.name}`" class="d-flex align-items-center">
-                      <span class="text-break"><strong>{{ pkg.name }}</strong></span>
-                    </NuxtLink>
-                    <span class="flex-shrink-0 text-muted">used {{ pkg.count }} {{ pkg.count > 1 ? 'times' : 'time' }}</span>
-                  </div>
+              <div v-else class="d-flex flex-column gap-2 placeholder-glow">
+                <div v-for="n of 7" :key="n" class="d-flex gap-2 align-items-center">
+                  <span class="placeholder" style="width: 100px;" />
+                  <span class="placeholder col-3" />
                 </div>
               </div>
             </div>
