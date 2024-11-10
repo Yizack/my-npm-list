@@ -86,7 +86,7 @@ const updateList = async () => {
   user.value.packages = repos.packages;
   user.value.listUpdated = time;
   if (repos.packages.length) {
-    filteredPackages.value = user.value.packages;
+    filteredPackages.value = repos.packages;
     toast.value.success = true;
     toast.value.message = `Found ${repos.packages.length} ${repos.packages.length > 1 ? "packages" : "package"}`;
   }
