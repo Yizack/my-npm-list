@@ -59,7 +59,7 @@ const filterPackages = (packages) => {
     default:
       return packages;
   }
-}
+};
 
 const filteredPackages = computed({
   get () {
