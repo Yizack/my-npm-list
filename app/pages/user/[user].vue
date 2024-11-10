@@ -65,8 +65,8 @@ const filteredPackages = computed({
   get () {
     return filterPackages(userPackages.value);
   },
-  set (updatedPackage) {
-    userPackages.value = filterPackages(updatedPackage);
+  set (updatedPackages) {
+    userPackages.value = filterPackages(updatedPackages);
   }
 });
 
