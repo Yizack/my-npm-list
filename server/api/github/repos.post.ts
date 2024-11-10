@@ -1,7 +1,8 @@
 import { eq, desc, and, notInArray, sql } from "drizzle-orm";
 
 export default defineEventHandler(async (event) => {
-  const { user, ghTokens } = await requireUserSession(event);
+  const { user, secure } = await requireUserSession(event);
+  if (!secure?.access_token) throw createError({ status: 401, message: "Unauthorized" });
   if (!user) {
     throw createError({
       status: 401,
@@ -14,7 +15,7 @@ export default defineEventHandler(async (event) => {
   const ghRepos = await $fetch<{ name: string, fork: boolean }[]>(`https://api.github.com/users/${ghUser}/repos`, {
     headers: {
       "User-Agent": `Github-OAuth-${config.oauth.github.clientId}`,
-      "Authorization": `Bearer ${ghTokens.access_token}`
+      "Authorization": `Bearer ${secure.access_token}`
     },
     query: {
       affiliation: "owner",
@@ -40,7 +41,7 @@ export default defineEventHandler(async (event) => {
       const file = await $fetch<{ content: string, encoding: BufferEncoding }>(`https://api.github.com/repos/${ghUser}/${name}/contents/package.json`, {
         headers: {
           "User-Agent": `Github-OAuth-${config.oauth.github.clientId}`,
-          "Authorization": `Bearer ${ghTokens.access_token}`,
+          "Authorization": `Bearer ${secure.access_token}`,
           "Accept": "application/vnd.github+json"
         }
       }).catch(() => null);

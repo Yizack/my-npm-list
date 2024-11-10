@@ -11,9 +11,9 @@ declare module "#auth-utils" {
   }
   interface UserSession {
     user: User;
-    ghTokens: {
-      access_token: string;
-    };
+  }
+  interface SecureSessionData {
+    access_token: string;
   }
 }
 

@@ -20,7 +20,7 @@ export default defineOAuthGitHubEventHandler({
 
     await setUserSession(event, {
       user,
-      ghTokens: {
+      secure: {
         access_token: tokens.access_token
       }
     });

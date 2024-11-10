@@ -2,7 +2,8 @@ import { eq, and, sql } from "drizzle-orm";
 
 export default defineEventHandler(async (event) => {
   const params = getRouterParams(event);
-  const { user, ghTokens } = await requireUserSession(event);
+  const { user, secure } = await requireUserSession(event);
+  if (!secure?.access_token) throw createError({ status: 401, message: "Unauthorized" });
 
   if (!user || !params || params.user !== user.ghUser) {
     throw createError({ statusCode: 401, message: "Unauthorized" });
@@ -18,6 +19,6 @@ export default defineEventHandler(async (event) => {
     website: body.website ? body.website : null
   }).where(and(eq(tables.users.ghId, user.ghId), sql`lower(${tables.users.ghUser}) like lower(${user.ghUser})`)).returning().get();
 
-  await setUserSessionNullable(event, { user: update, ghTokens });
+  await setUserSessionNullable(event, { user: update, secure });
   return update;
 });
