@@ -38,13 +38,14 @@ const isUpdating = ref(false);
 const search = ref("");
 const filter = ref(1);
 const desc = ref(true);
+const userPackages = ref(user.value.packages);
 const toast = ref({
   message: "",
   success: false
 });
 
-const filteredPackages = computed(() => {
-  const packages = user.value.packages.filter(pkg => pkg.name.toLowerCase().includes(search.value.toLowerCase()));
+const filterPackages = (packages) => {
+  packages.filter(pkg => pkg.name.toLowerCase().includes(search.value.toLowerCase()));
   // sort by count
   switch (filter.value) {
     case 1:
@@ -57,6 +58,15 @@ const filteredPackages = computed(() => {
       return packages.sort((a, b) => desc.value ? b.versions.split(",").length - a.versions.split(",").length : a.versions.split(",").length - b.versions.split(",").length);
     default:
       return packages;
+  }
+}
+
+const filteredPackages = computed({
+  get () {
+    return filterPackages(userPackages.value);
+  },
+  set (updatedPackage) {
+    userPackages.value = filterPackages(updatedPackage);
   }
 });
 
@@ -76,6 +86,7 @@ const updateList = async () => {
   user.value.packages = repos.packages;
   user.value.listUpdated = time;
   if (repos.packages.length) {
+    filteredPackages.value = user.value.packages;
     toast.value.success = true;
     toast.value.message = `Found ${repos.packages.length} ${repos.packages.length > 1 ? "packages" : "package"}`;
   }
@@ -118,7 +129,7 @@ const updateList = async () => {
           </div>
           <div class="d-flex align-items-center gap-2 mb-2">
             <Icon class="flex-shrink-0" name="solar:box-bold" size="1.3em" />
-            {{ user.packages.length }} packages used
+            {{ filteredPackages.length }} packages used
           </div>
           <div v-if="loggedIn" class="d-grid gap-2">
             <button v-if="isUpdating" class="btn btn-primary rounded-pill" disabled>
