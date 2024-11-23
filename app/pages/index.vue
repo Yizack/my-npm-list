@@ -89,7 +89,7 @@ useHead({
                       <span class="text-break"><strong>{{ user.ghUser }}</strong></span>
                     </NuxtLink>
                     <Icon class="flex-shrink-0 text-primary-emphasis" name="solar:clock-circle-linear" />
-                    <span class="flex-fill flex-shrink-0 text-muted">{{ getTimeAgo(user.joined!) }}</span>
+                    <span class="flex-fill flex-shrink-0 text-muted">{{ useTimeAgo(user.joined!) }}</span>
                   </div>
                 </div>
               </div>
