@@ -12,9 +12,11 @@ let _db: DrizzleD1Database | BetterSQLite3Database | null = null;
 
 export const useDB = () => {
   if (!_db) {
-    if (process.env.DB) {
+    // @ts-expect-error globalThis.__env__ is not defined
+    const binding = process.env.DB || globalThis.__env__?.DB || globalThis.DB
+    if (binding) {
       // d1 in production
-      _db = drizzleD1(process.env.DB);
+      _db = drizzleD1(binding);
     }
     else if (import.meta.dev) {
       // local sqlite in development
