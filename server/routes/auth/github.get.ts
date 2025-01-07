@@ -4,7 +4,7 @@ export default defineOAuthGitHubEventHandler({
   },
   async onSuccess (event, { user: ghUser, tokens }) {
     const ghUserName = ghUser.name ? ghUser.name : ghUser.login;
-    const user = await useDb().insert(tables.users).values({
+    const user = await useDB().insert(tables.users).values({
       ghId: ghUser.id,
       ghUser: ghUser.login,
       name: ghUserName,

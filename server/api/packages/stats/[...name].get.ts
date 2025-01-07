@@ -3,7 +3,7 @@ import { eq, desc } from "drizzle-orm";
 export default defineEventHandler(async (event) => {
   const { name } = getRouterParams(event);
   if (!name) throw createError({ statusCode: 400, message: "Invalid package name" });
-  const DB = useDb();
+  const DB = useDB();
   const pkg = await DB.select().from(tables.packages).where(eq(tables.packages.name, name)).get();
 
   if (!pkg) throw createError({ statusCode: 404, message: "Package not found" });

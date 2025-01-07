@@ -1,7 +1,7 @@
 import { desc, eq, count, sum } from "drizzle-orm";
 
 export default defineEventHandler(async () => {
-  const DB = useDb();
+  const DB = useDB();
   const users = await DB.select().from(tables.users).orderBy(desc(tables.users.joined)).limit(10).all();
 
   const packages_users = await DB.select({

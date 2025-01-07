@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
     count: number;
   }[];
   const today = new Date().getTime();
-  const DB = useDb();
+  const DB = useDB();
 
   if (ghRepos.length) {
     for (const { name, fork } of ghRepos) {

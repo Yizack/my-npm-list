@@ -3,7 +3,7 @@ import { eq, desc, sql } from "drizzle-orm";
 export default defineEventHandler(async (event) => {
   const { user } = getRouterParams(event);
   const { props } = getQuery(event);
-  const DB = useDb();
+  const DB = useDB();
 
   type KeyOfTablesUsers = keyof typeof tables.users;
 

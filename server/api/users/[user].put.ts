@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const body = await readBody(event);
-  const DB = useDb();
+  const DB = useDB();
 
   const update = await DB.update(tables.users).set({
     name: body.name,

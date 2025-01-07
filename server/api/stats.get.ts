@@ -1,7 +1,7 @@
 import { sql, desc, eq, count, max } from "drizzle-orm";
 
 export default defineEventHandler(async (): Promise<SiteStats[]> => {
-  const DB = useDb();
+  const DB = useDB();
 
   const packages = DB.select({ count: count().as("count") }).from(tables.packages).as("p");
   const users = DB.select({ count: count() }).from(tables.users);

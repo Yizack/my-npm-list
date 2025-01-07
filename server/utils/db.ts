@@ -10,7 +10,7 @@ export * as tables from "../db/schema";
 
 let _db: DrizzleD1Database | BetterSQLite3Database | null = null;
 
-export const useDb = () => {
+export const useDB = () => {
   if (!_db) {
     if (process.env.DB) {
       // d1 in production
