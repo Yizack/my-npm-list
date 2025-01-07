@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
   future: { compatibilityVersion: 4 },
+
   app: {
     head: {
       charset: "utf-8",
@@ -16,6 +17,7 @@ export default defineNuxtConfig({
       ]
     }
   },
+
   css: [
     "bootstrap/dist/css/bootstrap.min.css",
     "~/assets/css/main.css",
@@ -24,22 +26,26 @@ export default defineNuxtConfig({
     "~/assets/css/navbar.css",
     "~/assets/css/buttons.css"
   ],
+
   modules: [
     "@nuxt/eslint",
     "@nuxt/icon",
     "nuxt-twemoji",
     "nuxt-auth-utils"
   ],
+
   icon: {
     mode: "svg",
     clientBundle: { scan: true, sizeLimitKb: 2048 }
   },
+
   eslint: {
     config: {
       autoInit: false,
       stylistic: true
     }
   },
+
   runtimeConfig: {
     session: {
       name: "nuxt-session",
@@ -52,10 +58,14 @@ export default defineNuxtConfig({
       }
     }
   },
+
   features: {
     inlineStyles: false
   },
+
   experimental: {
     typedPages: true
-  }
+  },
+
+  compatibilityDate: "2025-01-07"
 });
