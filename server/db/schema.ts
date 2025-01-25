@@ -9,16 +9,18 @@ export const users = sqliteTable("users", {
   country: text("country"),
   joined: integer("joined"),
   listUpdated: integer("list_updated")
-}, table => ({
-  ghUserIndex: uniqueIndex("gh_user_index").on(table.ghUser)
-}));
+}, table => [
+  uniqueIndex("gh_user_index").on(table.ghUser)
+]);
 
 export const packages = sqliteTable("packages", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
   added: integer("added").notNull(),
   lastFetch: integer("last_fetch").notNull()
-}, table => ({ packageNameIndex: uniqueIndex("package_name_index").on(table.name) }));
+}, table => [
+  uniqueIndex("package_name_index").on(table.name)
+]);
 
 export const lists = sqliteTable("lists", {
   id: integer("id").primaryKey(),
@@ -26,4 +28,6 @@ export const lists = sqliteTable("lists", {
   packageId: integer("package_id").notNull().references(() => packages.id),
   versions: text("versions").notNull(),
   count: integer("count").notNull()
-}, table => ({ packageIdIndex: uniqueIndex("package_id_index").on(table.ghId, table.packageId) }));
+}, table => [
+  uniqueIndex("package_id_index").on(table.ghId, table.packageId)
+]);
