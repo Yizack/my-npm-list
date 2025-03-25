@@ -1,6 +1,6 @@
 export { useTimeAgo } from "@vueuse/core";
 
-export const formatDate = (date: string | number, time = undefined) => {
+export const formatDate = (date: string | number, time: boolean | undefined = undefined) => {
   return new Date(date).toLocaleDateString(undefined, {
     year: "numeric",
     month: "short",

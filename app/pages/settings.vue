@@ -2,6 +2,7 @@
 definePageMeta({ middleware: "session" });
 
 const { user } = useUserSession();
+
 const saving = ref(false);
 const toast = ref({ message: "", success: false });
 const countryForm = ref({ search: "", code: "", searching: false, focus: false });
@@ -61,7 +62,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section>
+  <section v-if="user">
     <form @submit.prevent="saveProfile()">
       <div class="row g-2 row-cols-1">
         <div class="col">

@@ -5,7 +5,7 @@ class Countries {
     return countriesData;
   }
 
-  getEmoji (code: string) {
+  getEmoji (code: string | null) {
     return countriesData.find(country => country.code === code)?.emoji || "";
   }
 

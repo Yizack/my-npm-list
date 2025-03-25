@@ -20,6 +20,6 @@ export default defineEventHandler(async (event) => {
   return {
     ...pkg,
     users,
-    npm: npm ? { description: npm.description, homepage: npm.homepage, keywords: npm.keywords } : {}
+    npm: npm ? { description: npm.description, homepage: npm.homepage, keywords: npm.keywords } : null
   };
 });

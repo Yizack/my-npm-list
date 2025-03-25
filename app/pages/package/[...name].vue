@@ -13,19 +13,19 @@ if (!pkg.value) {
 
 useSeoMeta({
   title: `Package: ${packageName} | ${SITE.name}`,
-  description: pkg.value.npm.description,
-  keywords: pkg.value.npm.keywords,
+  description: pkg.value.npm?.description,
+  keywords: pkg.value.npm?.keywords,
   // Open Graph
   ogType: "website",
   ogTitle: `Package: ${packageName} | ${SITE.name}`,
   ogSiteName: SITE.name,
-  ogDescription: pkg.value.npm.description,
+  ogDescription: pkg.value.npm?.description,
   ogUrl: `${SITE.url}/package/${packageName}`,
   // Twitter
   twitterCard: "summary",
   twitterTitle: `Package: ${packageName} | ${SITE.name}`,
   twitterCreator: SITE.author.twitter,
-  twitterDescription: pkg.value.npm.description
+  twitterDescription: pkg.value.npm?.description
 });
 
 useHead({
@@ -36,7 +36,7 @@ useHead({
 </script>
 
 <template>
-  <main>
+  <main v-if="pkg && pkg.npm">
     <div class="row g-2">
       <div class="col-lg-12">
         <div class="bg-body-tertiary rounded-3 p-3 p-lg-4">
@@ -91,7 +91,7 @@ export default {
     this.$nuxt.$bootstrap.disposePopover();
   },
   methods: {
-    userHtmlInfo (user, pkg) {
+    userHtmlInfo (user: { ghId: number, ghUser: string, ghName: string, count: number }, pkg: string) {
       return `
         <div class="d-flex gap-2 align-items-center mb-2">
           <img src="https://avatars.githubusercontent.com/u/${user.ghId}?v=4" alt="avatar" class="rounded-circle" width="48" height="48">
