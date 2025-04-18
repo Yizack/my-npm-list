@@ -4,10 +4,11 @@ CREATE TABLE `lists` (
 	`package_id` integer NOT NULL,
 	`versions` text NOT NULL,
 	`count` integer NOT NULL,
-	FOREIGN KEY (`gh_id`) REFERENCES `users`(`gh_id`),
-	FOREIGN KEY (`package_id`) REFERENCES `packages`(`id`)
+	FOREIGN KEY (`gh_id`) REFERENCES `users`(`gh_id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`package_id`) REFERENCES `packages`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `package_id_index` ON `lists` (`gh_id`,`package_id`);--> statement-breakpoint
 CREATE TABLE `packages` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
@@ -15,6 +16,7 @@ CREATE TABLE `packages` (
 	`last_fetch` integer NOT NULL
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `package_name_index` ON `packages` (`name`);--> statement-breakpoint
 CREATE TABLE `users` (
 	`gh_id` integer PRIMARY KEY NOT NULL,
 	`gh_user` text NOT NULL,
@@ -26,6 +28,4 @@ CREATE TABLE `users` (
 	`list_updated` integer
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `package_id_index` ON `lists` (`gh_id`,`package_id`);--> statement-breakpoint
-CREATE UNIQUE INDEX `package_name_index` ON `packages` (`name`);--> statement-breakpoint
 CREATE UNIQUE INDEX `gh_user_index` ON `users` (`gh_user`);

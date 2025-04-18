@@ -1,12 +1,12 @@
 {
-  "version": "5",
+  "version": "7",
   "dialect": "sqlite",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1686768420279,
-      "tag": "0000_foamy_smiling_tiger",
+      "version": "6",
+      "when": 1744971511436,
+      "tag": "0000_pale_talos",
       "breakpoints": true
     }
   ]
