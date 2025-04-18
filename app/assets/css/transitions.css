@@ -18,3 +18,23 @@
 .fade-leave-to {
   opacity: 0;
 }
+
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.list-leave-active {
+  position: fixed;
+  width: 0%;
+  left: 50%;
+  top: 100%;
+  transform: translateY(100%);
+}

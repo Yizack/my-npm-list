@@ -1,12 +1,12 @@
 <script setup>
 const { loggedIn, user: session } = useUserSession();
-const { params } = useRoute();
-const { data: user } = await useFetch(`/api/users/${params.user}`);
+const { params } = useRoute("user-slug");
+const { data: user } = await useFetch(`/api/users/${params.slug}`);
 
 if (!user.value.ghUser) {
   throw createError({
     statusCode: 404,
-    message: `User not found: '${params.user}'`,
+    message: `User not found: '${params.slug}'`,
     fatal: true
   });
 }
@@ -44,8 +44,8 @@ const toast = ref({
   success: false
 });
 
-const filterPackages = (packages) => {
-  packages.filter(pkg => pkg.name.toLowerCase().includes(search.value.toLowerCase()));
+const filteredPackages = computed(() => {
+  const packages = userPackages.value.filter(pkg => pkg.name.toLowerCase().includes(search.value.toLowerCase()));
   // sort by count
   switch (filter.value) {
     case 1:
@@ -58,15 +58,6 @@ const filterPackages = (packages) => {
       return packages.sort((a, b) => desc.value ? b.versions.split(",").length - a.versions.split(",").length : a.versions.split(",").length - b.versions.split(",").length);
     default:
       return packages;
-  }
-};
-
-const filteredPackages = computed({
-  get () {
-    return filterPackages(userPackages.value);
-  },
-  set (updatedPackages) {
-    userPackages.value = filterPackages(updatedPackages);
   }
 });
 
@@ -86,7 +77,7 @@ const updateList = async () => {
   user.value.packages = repos.packages;
   user.value.listUpdated = time;
   if (repos.packages.length) {
-    filteredPackages.value = repos.packages;
+    userPackages.value = repos.packages;
     toast.value.success = true;
     toast.value.message = `Found ${repos.packages.length} ${repos.packages.length > 1 ? "packages" : "package"}`;
   }
@@ -171,7 +162,7 @@ const updateList = async () => {
               </div>
             </div>
           </div>
-          <TransitionGroup name="tab">
+          <TransitionGroup name="list">
             <div v-for="pkg in filteredPackages" :key="pkg.id" class="col-md-6 col-xl-4">
               <div class="bg-body-tertiary rounded-3 p-3 h-100">
                 <div class="d-flex gap-2 align-items-center mb-2">
