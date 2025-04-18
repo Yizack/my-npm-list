@@ -36,7 +36,7 @@ useHead({
 
 const isUpdating = ref(false);
 const search = ref("");
-const filter = ref(1);
+const filter = ref("");
 const desc = ref(true);
 const userPackages = ref(user.value.packages);
 const toast = ref({
@@ -46,15 +46,15 @@ const toast = ref({
 
 const filteredPackages = computed(() => {
   const packages = userPackages.value.filter(pkg => pkg.name.toLowerCase().includes(search.value.toLowerCase()));
-  // sort by count
   switch (filter.value) {
-    case 1:
+    // sort by used count
+    case "used":
       return packages.sort((a, b) => desc.value ? b.count - a.count : a.count - b.count);
-      // sort by name
-    case 2:
+    // sort by name
+    case "name":
       return packages.sort((a, b) => desc.value ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name));
-      // sort by versions length
-    case 3:
+    // sort by versions count
+    case "versions":
       return packages.sort((a, b) => desc.value ? b.versions.split(",").length - a.versions.split(",").length : a.versions.split(",").length - b.versions.split(",").length);
     default:
       return packages;
@@ -148,10 +148,10 @@ const updateList = async () => {
               </div>
               <div class="input-group">
                 <select v-model="filter" class="form-select">
-                  <option :value="0" disabled>Sort by</option>
-                  <option :value="1">Times used</option>
-                  <option :value="2">Alphabetical</option>
-                  <option :value="3">Versions</option>
+                  <option value="" disabled>Sort by</option>
+                  <option value="used">Times used</option>
+                  <option value="name">Alphabetical</option>
+                  <option value="versions">Versions</option>
                 </select>
                 <button class="btn btn-primary" :style="{ width: '3rem' }" @click="desc = !desc">
                   <Transition name="tab" mode="out-in">
