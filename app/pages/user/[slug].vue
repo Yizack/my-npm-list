@@ -120,7 +120,8 @@ const updateList = async () => {
           </div>
           <div class="d-flex align-items-center gap-2 mb-2">
             <Icon class="flex-shrink-0" name="solar:box-bold" size="1.3em" />
-            {{ filteredPackages.length }} packages used
+            <span>{{ userPackages.length }} packages used</span>
+            <span v-if="filteredPackages.length !== userPackages.length">(showing {{ filteredPackages.length }})</span>
           </div>
           <div v-if="loggedIn" class="d-grid gap-2">
             <button v-if="isUpdating" class="btn btn-primary rounded-pill" disabled>
