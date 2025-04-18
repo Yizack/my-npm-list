@@ -51,8 +51,7 @@ export default {
   data () {
     return {
       pages: [
-        { name: "Home", path: "/" },
-        { name: "Site Stats", path: "/stats" }
+        { name: "Home", path: "/" }
       ]
     };
   }
