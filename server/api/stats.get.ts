@@ -9,7 +9,7 @@ export default defineEventHandler(async (): Promise<SiteStats[]> => {
 
   const mostPackagesUser = DB.select({
     ghUser: tables.users.ghUser,
-    count: count()
+    count: count().as("count")
   }).from(tables.lists).innerJoin(tables.users, eq(tables.lists.ghId, tables.users.ghId)).groupBy(tables.lists.ghId).orderBy(desc(count())).limit(1);
 
   const maxPackageUser = DB.select({
@@ -19,7 +19,7 @@ export default defineEventHandler(async (): Promise<SiteStats[]> => {
 
   const mostUsedPackage = DB.select({
     name: sql`${tables.packages.name}`.as("name"),
-    count: count()
+    count: count().as("count")
   }).from(tables.lists).innerJoin(tables.packages, eq(tables.lists.packageId, tables.packages.id)).groupBy(tables.lists.packageId).orderBy(desc(tables.packages.lastFetch), desc(count())).limit(1);
 
   const counters = await DB.select({
