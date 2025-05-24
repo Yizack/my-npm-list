@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "3b8021ed-8f81-470c-b783-d09ded2012dd",
+  "id": "6138ec3a-d9d7-487b-bd58-bc93c904ca85",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "lists": {
@@ -44,13 +44,28 @@
         }
       },
       "indexes": {
-        "package_id_index": {
-          "name": "package_id_index",
+        "gh_id_package_id_unique_index": {
+          "name": "gh_id_package_id_unique_index",
           "columns": [
             "gh_id",
             "package_id"
           ],
           "isUnique": true
+        },
+        "gh_count_index": {
+          "name": "gh_count_index",
+          "columns": [
+            "gh_id",
+            "\"count\" desc"
+          ],
+          "isUnique": false
+        },
+        "package_id_index": {
+          "name": "package_id_index",
+          "columns": [
+            "package_id"
+          ],
+          "isUnique": false
         }
       },
       "foreignKeys": {
@@ -214,6 +229,14 @@
     "columns": {}
   },
   "internal": {
-    "indexes": {}
+    "indexes": {
+      "gh_count_index": {
+        "columns": {
+          "\"count\" desc": {
+            "isExpression": true
+          }
+        }
+      }
+    }
   }
 }

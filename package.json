@@ -50,5 +50,5 @@
     "bootstrap": "^5.3.5",
     "chart.js": "^4.4.9"
   },
-  "packageManager": "pnpm@10.10.0"
+  "packageManager": "pnpm@10.11.0"
 }

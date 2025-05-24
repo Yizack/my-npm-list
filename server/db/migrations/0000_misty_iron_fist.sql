@@ -8,7 +8,9 @@ CREATE TABLE `lists` (
 	FOREIGN KEY (`package_id`) REFERENCES `packages`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `package_id_index` ON `lists` (`gh_id`,`package_id`);--> statement-breakpoint
+CREATE UNIQUE INDEX `gh_id_package_id_unique_index` ON `lists` (`gh_id`,`package_id`);--> statement-breakpoint
+CREATE INDEX `gh_count_index` ON `lists` (`gh_id`,"count" desc);--> statement-breakpoint
+CREATE INDEX `package_id_index` ON `lists` (`package_id`);--> statement-breakpoint
 CREATE TABLE `packages` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,

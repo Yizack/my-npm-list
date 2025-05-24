@@ -1,4 +1,5 @@
-import { sqliteTable, text, integer, uniqueIndex } from "drizzle-orm/sqlite-core";
+import { desc } from "drizzle-orm";
+import { index, sqliteTable, text, integer, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 export const users = sqliteTable("users", {
   ghId: integer("gh_id").primaryKey(),
@@ -29,5 +30,7 @@ export const lists = sqliteTable("lists", {
   versions: text("versions").notNull(),
   count: integer("count").notNull()
 }, table => [
-  uniqueIndex("package_id_index").on(table.ghId, table.packageId)
+  uniqueIndex("gh_id_package_id_unique_index").on(table.ghId, table.packageId),
+  index("gh_count_index").on(table.ghId, desc(table.count)),
+  index("package_id_index").on(table.packageId)
 ]);
